@@ -50,7 +50,7 @@ export default function AnimalView(props) {
                     {animal.countInStock > 0 ? (
                       <span className="success">Available</span>
                     ) : (
-                      <span className="error">Unavailable</span>
+                      <span className="danger">Unavailable</span>
                     )}
                   </div>
                 </div>
