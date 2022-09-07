@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomeView from './views/HomeView';
 import AnimalView from './views/AnimalView';
+import CartView from './views/CartView';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </header>
         <main>
           <Routes>
+          <Route path="/cart/:id" element={<CartView/>} />
           <Route path="/animal/:id" element={<AnimalView/>} />
           <Route path="/" element={<HomeView/>} exact />
           </Routes>
