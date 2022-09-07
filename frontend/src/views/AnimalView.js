@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link,useParams } from 'react-router-dom';
+import { Link,useParams, useNavigate } from 'react-router-dom';
 import { detailsAnimal} from '../actions/animalActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -8,6 +8,7 @@ import Rating from '../components/Rating';
 import data from '../data';
 
 export default function AnimalView(props) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const params = useParams();
@@ -23,7 +24,7 @@ export default function AnimalView(props) {
     dispatch(detailsAnimal(animalId));
   }, [dispatch, animalId]);
   const addToCartHandler = () => {
-    props.history.push(`/cart/${animalId}?qty=${qty}`);
+    navigate(`/cart/${animalId}?qty=${qty}`);
   };
   return (
     <div>
@@ -107,7 +108,7 @@ export default function AnimalView(props) {
                           onClick={addToCartHandler}
                           className="primary block"
                         >
-                          Add to Cart
+                          Add to List
                         </button>
                       </li>
                     </>
