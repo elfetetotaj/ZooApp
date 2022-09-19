@@ -17,7 +17,6 @@ const data = {
   ],
     animals: [
       {
-        _id: '1',
         name: 'Bear',
         category: 'Test',
         image: '/images/bear.jpg',
@@ -28,8 +27,7 @@ const data = {
         description: 'test',
       },
       {
-        _id: '2',
-        name: 'Bear',
+        name: 'Bear2',
         category: 'Test',
         image: '/images/bear.jpg',
         price: 120,
@@ -39,8 +37,7 @@ const data = {
         description: 'test',
       },
       {
-        _id: '3',
-        name: 'Bear',
+        name: 'Bear3',
         category: 'Test',
         image: '/images/bear.jpg',
         price: 120,
@@ -50,8 +47,7 @@ const data = {
         description: 'test',
       },
       {
-        _id: '4',
-        name: 'Bear',
+        name: 'Bear4',
         category: 'Test',
         image: '/images/bear.jpg',
         price: 120,
@@ -61,8 +57,7 @@ const data = {
         description: 'test',
       },
       {
-        _id: '5',
-        name: 'Bear',
+        name: 'Bear5',
         category: 'Test',
         image: '/images/bear.jpg',
         price: 120,
@@ -72,8 +67,7 @@ const data = {
         description: 'test',
       },
       {
-        _id: '6',
-        name: 'Bear',
+        name: 'Bear6',
         category: 'Test',
         image: '/images/bear.jpg',
         price: 120,

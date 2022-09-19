@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import data from './data.js';
+import animalRouter from './routers/animalRouter.js'
 import userRouter from './routers/userRouter.js';
 import dotenv from 'dotenv';
 
@@ -15,19 +15,20 @@ mongoose
 });
 
 const app = express();
-app.get('/api/animals/:id', (req, res) => {
-  const animal = data.animals.find((x) => x._id === req.params.id);
-  if (animal) {
-    res.send(animal);
-  } else {
-    res.status(404).send({ message: 'Animal Not Found' });
-  }
-});
+// app.get('/api/animals/:id', (req, res) => {
+//   const animal = data.animals.find((x) => x._id === req.params.id);
+//   if (animal) {
+//     res.send(animal);
+//   } else {
+//     res.status(404).send({ message: 'Animal Not Found' });
+//   }
+// });
 
-app.get('/api/animals', (req, res) => {
-  res.send(data.animals);
-});
+// app.get('/api/animals', (req, res) => {
+//   res.send(data.animals);
+// });
 
+app.use('/api/animals', animalRouter);
 app.use('/api/users', userRouter);
 
 app.get('/', (req, res) => {
