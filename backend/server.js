@@ -15,6 +15,8 @@ mongoose
 });
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // app.get('/api/animals/:id', (req, res) => {
 //   const animal = data.animals.find((x) => x._id === req.params.id);
 //   if (animal) {
