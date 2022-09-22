@@ -6,6 +6,8 @@ import AnimalView from './views/AnimalView';
 import CartView from './views/CartView';
 import SignInView from './views/SignInView';
 import { signout } from './actions/userActions';
+import RegisterView from './views/RegisterView';
+import ShippingAddressView from './views/ShippingAddressView';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -50,9 +52,12 @@ function App() {
         </header>
         <main>
           <Routes>
+            <Route path="/cart" element={<CartView />} />
             <Route path="/cart/:id" element={<CartView />} />
             <Route path="/animal/:id" element={<AnimalView />} />
             <Route path="/signin" element={<SignInView />} />
+            <Route path="/register" element={<RegisterView />} />
+            <Route path="/shipping" element={<ShippingAddressView />} />
             <Route path="/" element={<HomeView />} exact />
           </Routes>
         </main>

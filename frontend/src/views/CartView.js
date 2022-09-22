@@ -27,7 +27,7 @@ export default function CartView(props) {
   };
 
   const checkoutHandler = () => {
-    props.history.push('/signin?redirect=shipping');
+    navigate('/signin?redirect=/shipping');
   };
   return (
     <div className="row top">
