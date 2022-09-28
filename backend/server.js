@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import animalRouter from './routers/animalRouter.js'
 import userRouter from './routers/userRouter.js';
 import dotenv from 'dotenv';
+import adoptRouter from './routers/adoptRouter.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/animals', animalRouter);
 app.use('/api/users', userRouter);
+app.use('/api/adopts', adoptRouter);
 
 app.get('/', (req, res) => {
   res.send('Server is ready');
