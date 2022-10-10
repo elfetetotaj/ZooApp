@@ -14,6 +14,7 @@ import FinishAdoptionView from './views/FinishAdoptionView';
 import AdoptionHistoryView from './views/AdoptionHistoryView';
 import ProfileView from './views/ProfileView';
 import PrivateRoute from './components/PrivateRoute';
+import AnimalListView from './views/AnimalListView';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -95,6 +96,7 @@ function App() {
             <Route path="/finishAdoption" element={<FinishAdoptionView />} />
             <Route path="/adopt/:id" element={<AdoptView />} />
             <Route path="/adoptionhistory" element={<AdoptionHistoryView />} />
+            <Route path="/animallist" element={<AnimalListView />} />
             {/* <Route path="/profile" element={<ProfileView />} /> */}
             <Route
               path="/profile"
