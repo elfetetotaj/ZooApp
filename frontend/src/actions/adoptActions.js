@@ -10,6 +10,9 @@ import {
   ADOPT_PAY_REQUEST,
   ADOPT_PAY_FAIL,
   ADOPT_PAY_SUCCESS,
+  ADOPT_MINE_LIST_REQUEST,
+  ADOPT_MINE_LIST_FAIL,
+  ADOPT_MINE_LIST_SUCCESS,
 } from '../constants/adoptConstants';
 
 export const createAdopt = (adopt) => async (dispatch, getState) => {
@@ -75,5 +78,26 @@ export const payAdopt = (adopt, paymentResult) => async (
         ? error.response.data.message
         : error.message;
     dispatch({ type: ADOPT_PAY_FAIL, payload: message });
+  }
+};
+
+export const listAdoptMine = () => async (dispatch, getState) => {
+  dispatch({ type: ADOPT_MINE_LIST_REQUEST });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+  try {
+    const { data } = await Axios.get('/api/adopts/mine', {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    });
+    dispatch({ type: ADOPT_MINE_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: ADOPT_MINE_LIST_FAIL, payload: message });
   }
 };

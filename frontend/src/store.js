@@ -6,6 +6,7 @@ import { userSigninReducer, userRegisterReducer } from './reducers/userReducers'
 import {
   adoptCreateReducer,
   adoptDetailsReducer,
+  adoptMineListReducer,
   adoptPayReducer
 } from './reducers/adoptReducers';
 
@@ -35,6 +36,7 @@ const reducer = combineReducers({
   adoptCreate: adoptCreateReducer,
   adoptDetails: adoptDetailsReducer,
   adoptPay: adoptPayReducer,
+  adoptMineList: adoptMineListReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

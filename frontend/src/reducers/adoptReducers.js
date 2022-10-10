@@ -10,6 +10,9 @@ import {
   ADOPT_PAY_REQUEST,
   ADOPT_PAY_RESET,
   ADOPT_PAY_SUCCESS,
+  ADOPT_MINE_LIST_FAIL,
+  ADOPT_MINE_LIST_REQUEST,
+  ADOPT_MINE_LIST_SUCCESS
 } from '../constants/adoptConstants';
 
 export const adoptCreateReducer = (state = {}, action) => {
@@ -50,6 +53,19 @@ export const adoptPayReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case ADOPT_PAY_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const adoptMineListReducer = (state = { adopts: [] }, action) => {
+  switch (action.type) {
+    case ADOPT_MINE_LIST_REQUEST:
+      return { loading: true };
+    case ADOPT_MINE_LIST_SUCCESS:
+      return { loading: false, adopts: action.payload };
+    case ADOPT_MINE_LIST_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

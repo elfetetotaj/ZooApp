@@ -11,6 +11,7 @@ import ShippingAddressView from './views/ShippingAddressView';
 import PaymentMethodView from './views/PaymentMethodView';
 import AdoptView from './views/AdoptView';
 import FinishAdoptionView from './views/FinishAdoptionView';
+import AdoptionHistoryView from './views/AdoptionHistoryView';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -64,6 +65,7 @@ function App() {
             <Route path="/payment" element={<PaymentMethodView />} />
             <Route path="/finishAdoption" element={<FinishAdoptionView />} />
             <Route path="/adopt/:id" element={<AdoptView />} />
+            <Route path="/adoptionhistory" element={<AdoptionHistoryView />} />
             <Route path="/" element={<HomeView />} exact />
           </Routes>
         </main>

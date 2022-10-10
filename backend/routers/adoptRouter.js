@@ -5,6 +5,15 @@ import { isAuth } from '../utils.js';
 
 const adoptRouter = express.Router();
 
+adoptRouter.get(
+  '/mine',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const adopts = await Adopt.find({ user: req.user._id });
+    res.send(adopts);
+  })
+);
+
 adoptRouter.post(
   '/',
   isAuth,
