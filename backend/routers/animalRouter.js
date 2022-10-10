@@ -54,5 +54,26 @@ animalRouter.post(
     res.send({ message: 'Animal Created', animal: createdAnimals });
   })
 );
+animalRouter.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const animalId = req.params.id;
+    const animal = await Animal.findById(animalId);
+    if (animal) {
+      animal.name = req.body.name;
+      animal.price = req.body.price;
+      animal.image = req.body.image;
+      animal.category = req.body.category;
+      animal.countInStock = req.body.countInStock;
+      animal.description = req.body.description;
+      const updatedAnimal = await animal.save();
+      res.send({ message: 'Animal Updated', animal: updatedAnimal });
+    } else {
+      res.status(404).send({ message: 'Animal Not Found' });
+    }
+  })
+);
 
 export default animalRouter;

@@ -8,7 +8,11 @@ const {
   ANIMAL_CREATE_REQUEST,
   ANIMAL_CREATE_SUCCESS,
   ANIMAL_CREATE_FAIL,
-  ANIMAL_CREATE_RESET
+  ANIMAL_CREATE_RESET,
+  ANIMAL_UPDATE_REQUEST,
+  ANIMAL_UPDATE_SUCCESS,
+  ANIMAL_UPDATE_FAIL,
+  ANIMAL_UPDATE_RESET,
 } = require('../constants/animalConstants');
 
 export const animalListReducer = (
@@ -48,6 +52,20 @@ export const animalCreateReducer = (state = {}, action) => {
     case ANIMAL_CREATE_FAIL:
       return { loading: false, error: action.payload };
     case ANIMAL_CREATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+export const animalUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ANIMAL_UPDATE_REQUEST:
+      return { loading: true };
+    case ANIMAL_UPDATE_SUCCESS:
+      return { loading: false, success: true };
+    case ANIMAL_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case ANIMAL_UPDATE_RESET:
       return {};
     default:
       return state;

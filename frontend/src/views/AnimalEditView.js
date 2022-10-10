@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { detailsAnimal } from '../actions/animalActions';
+import { detailsAnimal, updateAnimal } from '../actions/animalActions';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { ANIMAL_UPDATE_RESET } from '../constants/animalConstants';
 
 export default function AnimalEditView(props) {
     const navigate = useNavigate();
@@ -18,9 +19,19 @@ export default function AnimalEditView(props) {
 
     const animalDetails = useSelector((state) => state.animalDetails);
     const { loading, error, animal } = animalDetails;
+    const animalUpdate = useSelector((state) => state.animalUpdate);
+    const {
+        loading: loadingUpdate,
+        error: errorUpdate,
+        success: successUpdate,
+    } = animalUpdate;
     const dispatch = useDispatch();
     useEffect(() => {
-        if (!animal || animal._id !== animalId) {
+        if (successUpdate) {
+            navigate('/animallist');
+        }
+        if (!animal || animal._id !== animalId || successUpdate) {
+            dispatch({ type: ANIMAL_UPDATE_RESET });
             dispatch(detailsAnimal(animalId));
         } else {
             setName(animal.name);
@@ -30,10 +41,20 @@ export default function AnimalEditView(props) {
             setCountInStock(animal.countInStock);
             setDescription(animal.description);
         }
-    }, [animal, dispatch, animalId]);
+    }, [animal, dispatch, animalId, successUpdate, navigate]);
     const submitHandler = (e) => {
         e.preventDefault();
-        // TODO: dispatch update animal
+        dispatch(
+            updateAnimal({
+                _id: animalId,
+                name,
+                price,
+                image,
+                category,
+                countInStock,
+                description,
+            })
+        );
     };
     return (
         <div>
@@ -41,6 +62,8 @@ export default function AnimalEditView(props) {
                 <div>
                     <h1>Edit Animal {animalId}</h1>
                 </div>
+                {loadingUpdate && <LoadingBox></LoadingBox>}
+                {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
                 {loading ? (
                     <LoadingBox></LoadingBox>
                 ) : error ? (
