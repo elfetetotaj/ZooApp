@@ -6,6 +6,9 @@ import {
   ANIMAL_LIST_FAIL,
   ANIMAL_LIST_REQUEST,
   ANIMAL_LIST_SUCCESS,
+  ANIMAL_CREATE_FAIL,
+  ANIMAL_CREATE_REQUEST,
+  ANIMAL_CREATE_SUCCESS,
 } from '../constants/animalConstants';
 
 export const listAnimals = () => async (dispatch) => {
@@ -32,5 +35,31 @@ export const detailsAnimal = (animalId) => async (dispatch) => {
           ? error.response.data.message
           : error.message,
     });
+  }
+};
+
+export const createAnimal = () => async (dispatch, getState) => {
+  dispatch({ type: ANIMAL_CREATE_REQUEST });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+  try {
+    const { data } = await Axios.post(
+      '/api/animals',
+      {},
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
+    dispatch({
+      type: ANIMAL_CREATE_SUCCESS,
+      payload: data.animal,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: ANIMAL_CREATE_FAIL, payload: message });
   }
 };

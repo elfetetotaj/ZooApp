@@ -1,22 +1,46 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listAnimals } from '../actions/animalActions';
+import { useNavigate } from 'react-router-dom';
+import { createAnimal, listAnimals } from '../actions/animalActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { ANIMAL_CREATE_RESET } from '../constants/animalConstants';
 
 export default function AnimalListView(props) {
+  const navigate = useNavigate();
   const animalList = useSelector((state) => state.animalList);
   const { loading, error, animals } = animalList;
+  const animalCreate = useSelector((state) => state.animalCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    animal: createdAnimal,
+  } = animalCreate;
   const dispatch = useDispatch();
   useEffect(() => {
+    if (successCreate) {
+      dispatch({ type: ANIMAL_CREATE_RESET });
+      navigate(`/animal/${createdAnimal._id}/edit`);
+    }
     dispatch(listAnimals());
-  }, [dispatch]);
+  }, [createdAnimal, dispatch, navigate, successCreate]);
   const deleteHandler = () => {
     /// TODO: dispatch delete action
   };
+  const createHandler = () => {
+    dispatch(createAnimal());
+  };
   return (
     <div>
-      <h1>Animals</h1>
+      <div className="row">
+        <h1>Animals</h1>
+        <button type="button" className="primary" onClick={createHandler}>
+          Create Animal
+        </button>
+      </div>
+      {loadingCreate && <LoadingBox></LoadingBox>}
+      {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -46,7 +70,7 @@ export default function AnimalListView(props) {
                     type="button"
                     className="small"
                     onClick={() =>
-                      props.history.push(`/animal/${animal._id}/edit`)
+                     navigate(`/animal/${animal._id}/edit`)
                     }
                   >
                     Edit
