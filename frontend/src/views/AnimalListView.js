@@ -57,6 +57,9 @@ export default function AnimalListView(props) {
       {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       {loadingCreate && <LoadingBox></LoadingBox>}
       {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
+      {successDelete && (
+        <MessageBox variant="success">Animal Deleted Successfully</MessageBox>
+      )}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (

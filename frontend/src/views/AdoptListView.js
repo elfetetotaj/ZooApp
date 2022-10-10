@@ -33,6 +33,9 @@ export default function AdoptListView(props) {
       <h1>Adopts</h1>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
+      {successDelete && (
+        <MessageBox variant="success">Adoption Deleted Successfully</MessageBox>
+      )}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
