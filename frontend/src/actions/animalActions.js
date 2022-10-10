@@ -75,10 +75,10 @@ export const updateAnimal = (animal) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.put(`/api/animals/${animal._id}`, animal, {
+    await Axios.put(`/api/animals/${animal._id}`, animal, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
-    dispatch({ type: ANIMAL_UPDATE_SUCCESS, payload: data });
+    dispatch({ type: ANIMAL_UPDATE_SUCCESS });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -93,10 +93,10 @@ export const deleteAnimal = (animalId) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    await Axios.delete(`/api/animals/${animalId}`, {
+    const { data } = Axios.delete(`/api/animals/${animalId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
-    dispatch({ type: ANIMAL_DELETE_SUCCESS });
+    dispatch({ type: ANIMAL_DELETE_SUCCESS, payload: data });
   } catch (error) {
     const message =
       error.response && error.response.data.message

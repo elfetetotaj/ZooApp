@@ -16,6 +16,9 @@ export default function AdoptListView(props) {
   } = adoptDelete;
   const dispatch = useDispatch();
   useEffect(() => {
+    if (successDelete) {
+      dispatch({ type: ADOPT_DELETE_RESET });
+    }
     dispatch(listAdopts());
   }, [dispatch, successDelete]);
   const deleteHandler = (adopt) => {
