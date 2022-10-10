@@ -65,8 +65,8 @@ export default function ProfileView() {
                 id="name"
                 type="text"
                 placeholder="Enter name"
-                onChange={(e) => setName(e.target.value)}
                 value={user.name}
+                onChange={(e) => setName(e.target.value)}
               ></input>
             </div>
             <div>

@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { listUsers, deleteUser } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { USER_DETAILS_RESET } from '../constants/userConstants';
 
-export default function UserListView() {
+export default function UserListView(props) {
+    const navigate = useNavigate();
     const userList = useSelector((state) => state.userList);
     const { loading, error, users } = userList;
     const userDelete = useSelector((state) => state.userDelete);
@@ -16,6 +19,9 @@ export default function UserListView() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(listUsers());
+        dispatch({
+            type: USER_DETAILS_RESET,
+        });
     }, [dispatch, successDelete]);
     const deleteHandler = (user) => {
         if (window.confirm('Are you sure?')) {
@@ -53,7 +59,11 @@ export default function UserListView() {
                                 <td>{user.email}</td>
                                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                                 <td>
-                                    <button type="button" className="small">
+                                    <button
+                                        type="button"
+                                        className="small"
+                                        onClick={() => navigate(`/user/${user._id}/edit`)}
+                                    >
                                         Edit
                                     </button>
                                     <button

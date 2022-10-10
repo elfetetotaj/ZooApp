@@ -19,6 +19,7 @@ import AnimalListView from './views/AnimalListView';
 import AnimalEditView from './views/AnimalEditView';
 import AdoptListView from './views/AdoptListView';
 import UserListView from './views/UserListView';
+import UserEditView from './views/UserEditView';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -129,6 +130,14 @@ function App() {
               element={
                 <AdminRoute>
                   <UserListView />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/user/:id/edit"
+              element={
+                <AdminRoute>
+                  <UserEditView/>
                 </AdminRoute>
               }
             />
