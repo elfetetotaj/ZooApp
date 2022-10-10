@@ -2,7 +2,12 @@ import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducers';
 import { animalListReducer, animalDetailsReducer } from './reducers/animalReducers';
-import { userSigninReducer,userRegisterReducer } from './reducers/userReducers';
+import { userSigninReducer, userRegisterReducer } from './reducers/userReducers';
+import {
+  adoptCreateReducer,
+  adoptDetailsReducer,
+  adoptPayReducer
+} from './reducers/adoptReducers';
 
 const initialState = {
   userSignin: {
@@ -14,10 +19,10 @@ const initialState = {
     cartItems: localStorage.getItem('cartItems')
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
-      shippingAddress: localStorage.getItem('shippingAddress')
+    shippingAddress: localStorage.getItem('shippingAddress')
       ? JSON.parse(localStorage.getItem('shippingAddress'))
       : {},
-      paymentMethod: 'PayPal',
+    paymentMethod: 'PayPal',
   },
 };
 
@@ -27,6 +32,9 @@ const reducer = combineReducers({
   cart: cartReducer,
   userSignin: userSigninReducer,
   userRegister: userRegisterReducer,
+  adoptCreate: adoptCreateReducer,
+  adoptDetails: adoptDetailsReducer,
+  adoptPay: adoptPayReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

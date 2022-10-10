@@ -16,7 +16,7 @@ export default function PaymentMethodView(props) {
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(savePaymentMethod(paymentMethod));
-        navigate('/adopt');
+        navigate('/finishAdoption');
     };
     return (
         <div>

@@ -25,7 +25,42 @@ adoptRouter.post(
       const createdAdopt = await adopt.save();
       res
         .status(201)
-        .send({ message: 'New Adopt', adopt: createdAdopt });
+        .send({ message: 'New Adoption', adopt: createdAdopt });
+    }
+  })
+);
+
+adoptRouter.get(
+  '/:id',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const adopt = await Adopt.findById(req.params.id);
+    if (adopt) {
+      res.send(adopt);
+    } else {
+      res.status(404).send({ message: 'Adopt Not Found' });
+    }
+  })
+);
+
+adoptRouter.put(
+  '/:id/pay',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const adopt = await Adopt.findById(req.params.id);
+    if (adopt) {
+      adopt.isPaid = true;
+      adopt.paidAt = Date.now();
+      adopt.paymentResult = {
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.email_address,
+      };
+      const updatedAdopt = await adopt.save();
+      res.send({ message: 'Adopt Paid', adopt: updatedAdopt });
+    } else {
+      res.status(404).send({ message: 'Adoption Not Found' });
     }
   })
 );

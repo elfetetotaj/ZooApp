@@ -63,7 +63,7 @@ function App() {
             <Route path="/shipping" element={<ShippingAddressView />} />
             <Route path="/payment" element={<PaymentMethodView />} />
             <Route path="/finishAdoption" element={<FinishAdoptionView />} />
-            <Route path="/adopt" element={<AdoptView />} />
+            <Route path="/adopt/:id" element={<AdoptView />} />
             <Route path="/" element={<HomeView />} exact />
           </Routes>
         </main>
