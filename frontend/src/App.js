@@ -14,9 +14,11 @@ import FinishAdoptionView from './views/FinishAdoptionView';
 import AdoptionHistoryView from './views/AdoptionHistoryView';
 import ProfileView from './views/ProfileView';
 import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
 import AnimalListView from './views/AnimalListView';
 import AnimalEditView from './views/AnimalEditView';
 import AdoptListView from './views/AdoptListView';
+import UserListView from './views/UserListView';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -98,10 +100,38 @@ function App() {
             <Route path="/finishAdoption" element={<FinishAdoptionView />} />
             <Route path="/adopt/:id" element={<AdoptView />} />
             <Route path="/adoptionhistory" element={<AdoptionHistoryView />} />
-            <Route path="/animallist" element={<AnimalListView />} />
-            <Route path="/animal/:id/edit" element={<AnimalEditView />} />
-            <Route path="/adoptlist" element={<AdoptListView />} />
-            {/* <Route path="/profile" element={<ProfileView />} /> */}
+            <Route
+              path="/animallist"
+              element={
+                <AdminRoute>
+                  <AnimalListView />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/animal/:id/edit"
+              element={
+                <AdminRoute>
+                  <AnimalEditView />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/adoptlist"
+              element={
+                <AdminRoute>
+                  <AdoptListView />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/userlist"
+              element={
+                <AdminRoute>
+                  <UserListView />
+                </AdminRoute>
+              }
+            />
             <Route
               path="/profile"
               element={
