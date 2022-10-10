@@ -12,6 +12,8 @@ import PaymentMethodView from './views/PaymentMethodView';
 import AdoptView from './views/AdoptView';
 import FinishAdoptionView from './views/FinishAdoptionView';
 import AdoptionHistoryView from './views/AdoptionHistoryView';
+import ProfileView from './views/ProfileView';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -43,6 +45,12 @@ function App() {
                 </Link>
                 <ul className="dropdown-content">
                   <li>
+                    <Link to="/profile">User Profile</Link>
+                  </li>
+                  <li>
+                    <Link to="/adoptionhistory">Adoption History</Link>
+                  </li>
+                  <li>
                     <Link to="#signout" onClick={signoutHandler}>
                       Sign Out
                     </Link>
@@ -66,6 +74,15 @@ function App() {
             <Route path="/finishAdoption" element={<FinishAdoptionView />} />
             <Route path="/adopt/:id" element={<AdoptView />} />
             <Route path="/adoptionhistory" element={<AdoptionHistoryView />} />
+            {/* <Route path="/profile" element={<ProfileView />} /> */}
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <ProfileView />
+                </PrivateRoute>
+              }
+            />
             <Route path="/" element={<HomeView />} exact />
           </Routes>
         </main>
