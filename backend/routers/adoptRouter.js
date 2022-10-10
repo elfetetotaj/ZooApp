@@ -83,5 +83,19 @@ adoptRouter.put(
     }
   })
 );
+adoptRouter.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const adopt = await Adopt.findById(req.params.id);
+    if (adopt) {
+      const deleteAdopt = await adopt.remove();
+      res.send({ message: 'Adopt Deleted', adopt: deleteAdopt });
+    } else {
+      res.status(404).send({ message: 'Adopt Not Found' });
+    }
+  })
+);
 
 export default adoptRouter;

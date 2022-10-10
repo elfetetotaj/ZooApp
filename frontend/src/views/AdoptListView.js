@@ -1,22 +1,33 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listAdopts } from '../actions/adoptActions';
+import { listAdopts, deleteAdopt } from '../actions/adoptActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { ADOPT_DELETE_RESET } from '../constants/adoptConstants';
 
 export default function AdoptListView(props) {
   const adoptList = useSelector((state) => state.adoptList);
   const { loading, error, adopts } = adoptList;
+  const adoptDelete = useSelector((state) => state.adoptDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = adoptDelete;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(listAdopts());
-  }, [dispatch]);
+  }, [dispatch, successDelete]);
   const deleteHandler = (adopt) => {
-    // TODO: delete handler
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteAdopt(adopt._id));
+    }
   };
   return (
     <div>
       <h1>Adopts</h1>
+      {loadingDelete && <LoadingBox></LoadingBox>}
+      {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -60,7 +71,7 @@ export default function AdoptListView(props) {
                   <button
                     type="button"
                     className="small"
-                    onclick={() => deleteHandler(adopt)}
+                    onClick={() => deleteHandler(adopt)}
                   >
                     Delete
                   </button>

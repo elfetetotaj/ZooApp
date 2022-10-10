@@ -16,6 +16,9 @@ import {
   ADOPT_LIST_REQUEST,
   ADOPT_LIST_SUCCESS,
   ADOPT_LIST_FAIL,
+  ADOPT_DELETE_REQUEST,
+  ADOPT_DELETE_SUCCESS,
+  ADOPT_DELETE_FAIL,
 } from '../constants/adoptConstants';
 
 export const createAdopt = (adopt) => async (dispatch, getState) => {
@@ -122,5 +125,24 @@ export const listAdopts = () => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: ADOPT_LIST_FAIL, payload: message });
+  }
+};
+
+export const deleteAdopt = (adoptId) => async (dispatch, getState) => {
+  dispatch({ type: ADOPT_DELETE_REQUEST, payload: adoptId });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+  try {
+    const { data } = Axios.delete(`/api/adopts/${adoptId}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ADOPT_DELETE_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: ADOPT_DELETE_FAIL, payload: message });
   }
 };

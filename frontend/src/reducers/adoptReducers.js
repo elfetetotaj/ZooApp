@@ -16,6 +16,10 @@ import {
   ADOPT_LIST_REQUEST,
   ADOPT_LIST_SUCCESS,
   ADOPT_LIST_FAIL,
+  ADOPT_DELETE_REQUEST,
+  ADOPT_DELETE_SUCCESS,
+  ADOPT_DELETE_FAIL,
+  ADOPT_DELETE_RESET,
 } from '../constants/adoptConstants';
 
 export const adoptCreateReducer = (state = {}, action) => {
@@ -81,6 +85,21 @@ export const adoptListReducer = (state = { adopts: [] }, action) => {
       return { loading: false, adopts: action.payload };
     case ADOPT_LIST_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const adoptDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADOPT_DELETE_REQUEST:
+      return { loading: true };
+    case ADOPT_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case ADOPT_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    case ADOPT_DELETE_RESET:
+      return {};
     default:
       return state;
   }
