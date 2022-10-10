@@ -20,6 +20,10 @@ import {
   ADOPT_DELETE_SUCCESS,
   ADOPT_DELETE_FAIL,
   ADOPT_DELETE_RESET,
+  ADOPT_DELIVER_REQUEST,
+  ADOPT_DELIVER_SUCCESS,
+  ADOPT_DELIVER_FAIL,
+  ADOPT_DELIVER_RESET,
 } from '../constants/adoptConstants';
 
 export const adoptCreateReducer = (state = {}, action) => {
@@ -99,6 +103,21 @@ export const adoptDeleteReducer = (state = {}, action) => {
     case ADOPT_DELETE_FAIL:
       return { loading: false, error: action.payload };
     case ADOPT_DELETE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const adoptDeliverReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADOPT_DELIVER_REQUEST:
+      return { loading: true };
+    case ADOPT_DELIVER_SUCCESS:
+      return { loading: false, success: true };
+    case ADOPT_DELIVER_FAIL:
+      return { loading: false, error: action.payload };
+    case ADOPT_DELIVER_RESET:
       return {};
     default:
       return state;

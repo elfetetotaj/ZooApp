@@ -3,11 +3,14 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { detailsAdopt, payAdopt } from '../actions/adoptActions';
+import { detailsAdopt, payAdopt, deliverAdopt } from '../actions/adoptActions';
 import { useParams } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { ADOPT_PAY_RESET } from '../constants/adoptConstants';
+import {
+  ADOPT_PAY_RESET,
+  ADOPT_DELIVER_RESET,
+} from '../constants/adoptConstants';
 
 export default function AdoptView(props) {
   const params = useParams();
@@ -15,12 +18,20 @@ export default function AdoptView(props) {
   const [sdkReady, setSdkReady] = useState(false);
   const adoptDetails = useSelector((state) => state.adoptDetails);
   const { adopt, loading, error } = adoptDetails;
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
   const adoptPay = useSelector((state) => state.adoptPay);
   const {
     loading: loadingPay,
     error: errorPay,
     success: successPay,
   } = adoptPay;
+  const adoptDeliver = useSelector((state) => state.adoptDeliver);
+  const {
+    loading: loadingDeliver,
+    error: errorDeliver,
+    success: successDeliver,
+  } = adoptDeliver;
   const dispatch = useDispatch();
   useEffect(() => {
     const addPayPalScript = async () => {
@@ -34,8 +45,14 @@ export default function AdoptView(props) {
       };
       document.body.appendChild(script);
     };
-    if (!adopt || successPay || (adopt && adopt._id !== adoptId)) {
+    if (
+      !adopt ||
+      successPay ||
+      successDeliver ||
+      (adopt && adopt._id !== adoptId)
+    ) {
       dispatch({ type: ADOPT_PAY_RESET });
+      dispatch({ type: ADOPT_DELIVER_RESET});
       dispatch(detailsAdopt(adoptId));
     } else {
       if (!adopt.isPaid) {
@@ -46,10 +63,13 @@ export default function AdoptView(props) {
         }
       }
     }
-  }, [dispatch, adopt, adoptId, sdkReady, successPay]);
+  }, [dispatch, adopt, adoptId, sdkReady, successPay, successDeliver]);
 
   const successPaymentHnadler = (paymentResult) => {
     dispatch(payAdopt(adopt, paymentResult));
+  };
+  const deliverHandler = () => {
+    dispatch(deliverAdopt(adopt._id));
   };
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -166,17 +186,32 @@ export default function AdoptView(props) {
                     <LoadingBox></LoadingBox>
                   ) : (
                     <>
-                    {errorPay && (
-                      <MessageBox variant="danger">{errorPay}</MessageBox>
-                    )}
-                    {loadingPay && <LoadingBox></LoadingBox>}
+                      {errorPay && (
+                        <MessageBox variant="danger">{errorPay}</MessageBox>
+                      )}
+                      {loadingPay && <LoadingBox></LoadingBox>}
 
-                    <PayPalButton
-                      amount={adopt.totalPrice}
-                      onSuccess={successPaymentHnadler}
-                    ></PayPalButton>
-                  </>
+                      <PayPalButton
+                        amount={adopt.totalPrice}
+                        onSuccess={successPaymentHnadler}
+                      ></PayPalButton>
+                    </>
                   )}
+                </li>
+              )}
+               {userInfo.isAdmin && adopt.isPaid && !adopt.isDelivered && (
+                <li>
+                  {loadingDeliver && <LoadingBox></LoadingBox>}
+                  {errorDeliver && (
+                    <MessageBox variant="danger">{errorDeliver}</MessageBox>
+                  )}
+                  <button
+                    type="button"
+                    className="primary block"
+                    onClick={deliverHandler}
+                  >
+                    Deliver Adopt
+                  </button>
                 </li>
               )}
             </ul>

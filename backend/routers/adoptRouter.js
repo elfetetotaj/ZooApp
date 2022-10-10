@@ -98,4 +98,22 @@ adoptRouter.delete(
   })
 );
 
+adoptRouter.put(
+  '/:id/deliver',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const adopt = await Adopt.findById(req.params.id);
+    if (adopt) {
+      adopt.isDelivered = true;
+      adopt.deliveredAt = Date.now();
+
+      const updatedAdopt = await adopt.save();
+      res.send({ message: 'Adopt Delivered', adopt: updatedAdopt });
+    } else {
+      res.status(404).send({ message: 'Adopt Not Found' });
+    }
+  })
+);
+
 export default adoptRouter;

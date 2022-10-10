@@ -6,6 +6,7 @@ import { userSigninReducer, userRegisterReducer, userDetailsReducer, userUpdateP
 import {
   adoptCreateReducer,
   adoptDeleteReducer,
+  adoptDeliverReducer,
   adoptDetailsReducer,
   adoptListReducer,
   adoptMineListReducer,
@@ -46,6 +47,7 @@ const reducer = combineReducers({
   animalDelete: animalDeleteReducer,
   adoptList: adoptListReducer,
   adoptDelete: adoptDeleteReducer,
+  adoptDeliver: adoptDeliverReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

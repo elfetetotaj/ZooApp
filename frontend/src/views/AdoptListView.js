@@ -4,8 +4,10 @@ import { listAdopts, deleteAdopt } from '../actions/adoptActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { ADOPT_DELETE_RESET } from '../constants/adoptConstants';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdoptListView(props) {
+  const navigate = useNavigate();
   const adoptList = useSelector((state) => state.adoptList);
   const { loading, error, adopts } = adoptList;
   const adoptDelete = useSelector((state) => state.adoptDelete);
@@ -66,7 +68,7 @@ export default function AdoptListView(props) {
                     type="button"
                     className="small"
                     onClick={() => {
-                      props.history.push(`/adopt/${adopt._id}`);
+                      navigate(`/adopt/${adopt._id}`);
                     }}
                   >
                     Details
