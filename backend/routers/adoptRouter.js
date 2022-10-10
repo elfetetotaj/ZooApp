@@ -1,9 +1,19 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Adopt from '../models/adoptModel.js';
-import { isAuth } from '../utils.js';
+import { isAuth, isAdmin } from '../utils.js';
 
 const adoptRouter = express.Router();
+
+adoptRouter.get(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const adopts = await Adopt.find({}).populate('user', 'name');
+    res.send(adopts);
+  })
+);
 
 adoptRouter.get(
   '/mine',
