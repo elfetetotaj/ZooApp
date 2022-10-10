@@ -53,7 +53,7 @@ export default function AnimalListView(props) {
               <th>NAME</th>
               <th>PRICE</th>
               <th>CATEGORY</th>
-              <th>BRAND</th>
+              <th>image</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
@@ -64,7 +64,7 @@ export default function AnimalListView(props) {
                 <td>{animal.name}</td>
                 <td>{animal.price}</td>
                 <td>{animal.category}</td>
-                <td>{animal.brand}</td>
+                <td>{animal.image}</td>
                 <td>
                   <button
                     type="button"

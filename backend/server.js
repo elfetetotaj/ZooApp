@@ -1,9 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import path from 'path';
 import animalRouter from './routers/animalRouter.js'
 import userRouter from './routers/userRouter.js';
 import dotenv from 'dotenv';
 import adoptRouter from './routers/adoptRouter.js';
+import uploadRouter from './routers/uploadRouter.js';
 
 dotenv.config();
 
@@ -18,19 +20,9 @@ mongoose
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.get('/api/animals/:id', (req, res) => {
-//   const animal = data.animals.find((x) => x._id === req.params.id);
-//   if (animal) {
-//     res.send(animal);
-//   } else {
-//     res.status(404).send({ message: 'Animal Not Found' });
-//   }
-// });
 
-// app.get('/api/animals', (req, res) => {
-//   res.send(data.animals);
-// });
 
+app.use('/api/uploads', uploadRouter);
 app.use('/api/animals', animalRouter);
 app.use('/api/users', userRouter);
 app.use('/api/adopts', adoptRouter);
@@ -38,6 +30,8 @@ app.get('/api/config/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
 
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.get('/', (req, res) => {
   res.send('Server is ready');
 });
