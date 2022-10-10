@@ -12,6 +12,9 @@ import {
   ANIMAL_UPDATE_REQUEST,
   ANIMAL_UPDATE_SUCCESS,
   ANIMAL_UPDATE_FAIL,
+  ANIMAL_DELETE_REQUEST,
+  ANIMAL_DELETE_FAIL,
+  ANIMAL_DELETE_SUCCESS,
 } from '../constants/animalConstants';
 
 export const listAnimals = () => async (dispatch) => {
@@ -82,5 +85,23 @@ export const updateAnimal = (animal) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: ANIMAL_UPDATE_FAIL, error: message });
+  }
+};
+export const deleteAnimal = (animalId) => async (dispatch, getState) => {
+  dispatch({ type: ANIMAL_DELETE_REQUEST, payload: animalId });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+  try {
+    await Axios.delete(`/api/animals/${animalId}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ANIMAL_DELETE_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: ANIMAL_DELETE_FAIL, payload: message });
   }
 };

@@ -75,5 +75,19 @@ animalRouter.put(
     }
   })
 );
+animalRouter.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const animal = await Animal.findById(req.params.id);
+    if (animal) {
+      const deleteAnimal = await animal.remove();
+      res.send({ message: 'Animal Deleted', animal: deleteAnimal });
+    } else {
+      res.status(404).send({ message: 'Animal Not Found' });
+    }
+  })
+);
 
 export default animalRouter;

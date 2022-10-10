@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createAnimal, listAnimals } from '../actions/animalActions';
+import { createAnimal, listAnimals, deleteAnimal } from '../actions/animalActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { ANIMAL_CREATE_RESET } from '../constants/animalConstants';
+import {
+  ANIMAL_CREATE_RESET,
+  ANIMAL_DELETE_RESET
+} from '../constants/animalConstants';
 
 export default function AnimalListView(props) {
   const navigate = useNavigate();
@@ -17,16 +20,27 @@ export default function AnimalListView(props) {
     success: successCreate,
     animal: createdAnimal,
   } = animalCreate;
+  const animalDelete = useSelector((state) => state.animalDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = animalDelete;
   const dispatch = useDispatch();
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: ANIMAL_CREATE_RESET });
       navigate(`/animal/${createdAnimal._id}/edit`);
     }
+    if (successDelete) {
+      dispatch({ type: ANIMAL_DELETE_RESET });
+    }
     dispatch(listAnimals());
-  }, [createdAnimal, dispatch, navigate, successCreate]);
-  const deleteHandler = () => {
-    /// TODO: dispatch delete action
+  }, [createdAnimal, dispatch, navigate, successCreate, successDelete]);
+  const deleteHandler = (animal) => {
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteAnimal(animal._id));
+    }
   };
   const createHandler = () => {
     dispatch(createAnimal());
@@ -39,6 +53,8 @@ export default function AnimalListView(props) {
           Create Animal
         </button>
       </div>
+      {loadingDelete && <LoadingBox></LoadingBox>}
+      {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       {loadingCreate && <LoadingBox></LoadingBox>}
       {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
       {loading ? (
@@ -70,7 +86,7 @@ export default function AnimalListView(props) {
                     type="button"
                     className="small"
                     onClick={() =>
-                     navigate(`/animal/${animal._id}/edit`)
+                      navigate(`/animal/${animal._id}/edit`)
                     }
                   >
                     Edit
