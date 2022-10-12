@@ -90,4 +90,37 @@ animalRouter.delete(
   })
 );
 
+animalRouter.post(
+  '/:id/reviews',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const animalId = req.params.id;
+    const animal = await Animal.findById(animalId);
+    if (animal) {
+      if (animal.reviews.find((x) => x.name === req.user.name)) {
+        return res
+          .status(400)
+          .send({ message: 'You already submitted a review' });
+      }
+      const review = {
+        name: req.user.name,
+        rating: Number(req.body.rating),
+        comment: req.body.comment,
+      };
+      animal.reviews.push(review);
+      animal.numReviews = animal.reviews.length;
+      animal.rating =
+        animal.reviews.reduce((a, c) => c.rating + a, 0) /
+        animal.reviews.length;
+      const updatedAnimal = await animal.save();
+      res.status(201).send({
+        message: 'Review Created',
+        review: updatedAnimal.reviews[updatedAnimal.reviews.length - 1],
+      });
+    } else {
+      res.status(404).send({ message: 'Animal Not Found' });
+    }
+  })
+);
+
 export default animalRouter;

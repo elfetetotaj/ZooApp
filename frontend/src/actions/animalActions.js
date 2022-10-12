@@ -15,6 +15,9 @@ import {
   ANIMAL_DELETE_REQUEST,
   ANIMAL_DELETE_FAIL,
   ANIMAL_DELETE_SUCCESS,
+  ANIMAL_REVIEW_CREATE_REQUEST,
+  ANIMAL_REVIEW_CREATE_SUCCESS,
+  ANIMAL_REVIEW_CREATE_FAIL,
 } from '../constants/animalConstants';
 
 export const listAnimals = () => async (dispatch) => {
@@ -105,3 +108,30 @@ export const deleteAnimal = (animalId) => async (dispatch, getState) => {
     dispatch({ type: ANIMAL_DELETE_FAIL, payload: message });
   }
 };
+
+export const createReview =
+  (animalId, review) => async (dispatch, getState) => {
+    dispatch({ type: ANIMAL_REVIEW_CREATE_REQUEST });
+    const {
+      userSignin: { userInfo },
+    } = getState();
+    try {
+      const { data } = await Axios.post(
+        `/api/animals/${animalId}/reviews`,
+        review,
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: ANIMAL_REVIEW_CREATE_SUCCESS,
+        payload: data.review,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch({ type: ANIMAL_REVIEW_CREATE_FAIL, payload: message });
+    }
+  };

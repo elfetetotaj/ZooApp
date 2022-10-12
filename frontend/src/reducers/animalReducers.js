@@ -17,6 +17,10 @@ const {
   ANIMAL_DELETE_SUCCESS,
   ANIMAL_DELETE_FAIL,
   ANIMAL_DELETE_RESET,
+  ANIMAL_REVIEW_CREATE_REQUEST,
+  ANIMAL_REVIEW_CREATE_SUCCESS,
+  ANIMAL_REVIEW_CREATE_FAIL,
+  ANIMAL_REVIEW_CREATE_RESET,
 } = require('../constants/animalConstants');
 
 export const animalListReducer = (
@@ -84,6 +88,21 @@ export const animalDeleteReducer = (state = {}, action) => {
     case ANIMAL_DELETE_FAIL:
       return { loading: false, error: action.payload };
     case ANIMAL_DELETE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const animalReviewCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ANIMAL_REVIEW_CREATE_REQUEST:
+      return { loading: true };
+    case ANIMAL_REVIEW_CREATE_SUCCESS:
+      return { loading: false, success: true, review: action.payload };
+    case ANIMAL_REVIEW_CREATE_FAIL:
+      return { loading: false, error: action.payload };
+    case ANIMAL_REVIEW_CREATE_RESET:
       return {};
     default:
       return state;
