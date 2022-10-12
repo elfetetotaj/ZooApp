@@ -5,7 +5,6 @@ import { detailsAnimal, createReview } from '../actions/animalActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Rating from '../components/Rating';
-import data from '../data';
 import { ANIMAL_REVIEW_CREATE_RESET } from '../constants/animalConstants';
 
 export default function AnimalView(props) {
@@ -13,9 +12,6 @@ export default function AnimalView(props) {
   const dispatch = useDispatch();
 
   const params = useParams();
-  //const {id} = useParams();
-  //const animalId = data.animals.find((p) => Number(p._id) === Number(id));
-
   const { id: animalId } = params;
   const [qty, setQty] = useState(1);
   const animalDetails = useSelector((state) => state.animalDetails);

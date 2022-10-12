@@ -25,6 +25,7 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_RESET,
   USER_UPDATE_SUCCESS,
+  USER_ADDRESS_MAP_CONFIRM,
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -121,6 +122,15 @@ export const userDeleteReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_DELETE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const userAddressMapReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_ADDRESS_MAP_CONFIRM:
+      return { address: action.payload };
     default:
       return state;
   }

@@ -21,6 +21,8 @@ const adoptSchema = new mongoose.Schema(
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
+      lat: Number,
+      lng: Number,
     },
     paymentMethod: { type: String, required: true },
     paymentResult: {

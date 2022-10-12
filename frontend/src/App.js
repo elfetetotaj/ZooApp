@@ -20,6 +20,7 @@ import AnimalEditView from './views/AnimalEditView';
 import AdoptListView from './views/AdoptListView';
 import UserListView from './views/UserListView';
 import UserEditView from './views/UserEditView';
+import MapView from './views/MapView';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -146,6 +147,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <ProfileView />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/map"
+              element={
+                <PrivateRoute>
+                  <MapView />
                 </PrivateRoute>
               }
             />
