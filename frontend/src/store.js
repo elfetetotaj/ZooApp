@@ -10,7 +10,8 @@ import {
   adoptDetailsReducer,
   adoptListReducer,
   adoptMineListReducer,
-  adoptPayReducer
+  adoptPayReducer,
+  adoptSummaryReducer
 } from './reducers/adoptReducers';
 
 const initialState = {
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   userUpdate: userUpdateReducer,
   animalReviewCreate: animalReviewCreateReducer,
   userAddressMap: userAddressMapReducer,
+  adoptSummary: adoptSummaryReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

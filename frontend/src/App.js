@@ -21,6 +21,7 @@ import AdoptListView from './views/AdoptListView';
 import UserListView from './views/UserListView';
 import UserEditView from './views/UserEditView';
 import MapView from './views/MapView';
+import DashboardView from './views/DashboardView';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -139,6 +140,14 @@ function App() {
               element={
                 <AdminRoute>
                   <UserEditView/>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <AdminRoute>
+                  <DashboardView/>
                 </AdminRoute>
               }
             />

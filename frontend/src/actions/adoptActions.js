@@ -21,7 +21,9 @@ import {
   ADOPT_DELETE_FAIL,
   ADOPT_DELIVER_REQUEST,
   ADOPT_DELIVER_SUCCESS,
-  ADOPT_DELIVER_FAIL
+  ADOPT_DELIVER_FAIL,
+  ADOPT_SUMMARY_REQUEST,
+  ADOPT_SUMMARY_SUCCESS,
 } from '../constants/adoptConstants';
 
 export const createAdopt = (adopt) => async (dispatch, getState) => {
@@ -170,5 +172,26 @@ export const deliverAdopt = (adoptId) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: ADOPT_DELIVER_FAIL, payload: message });
+  }
+};
+
+export const summaryAdopt = () => async (dispatch, getState) => {
+  dispatch({ type: ADOPT_SUMMARY_REQUEST });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+  try {
+    const { data } = await Axios.get('/api/adopts/summary', {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ADOPT_SUMMARY_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ADOPT_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };

@@ -24,6 +24,9 @@ import {
   ADOPT_DELIVER_SUCCESS,
   ADOPT_DELIVER_FAIL,
   ADOPT_DELIVER_RESET,
+  ADOPT_SUMMARY_REQUEST,
+  ADOPT_SUMMARY_SUCCESS,
+  ADOPT_SUMMARY_FAIL,
 } from '../constants/adoptConstants';
 
 export const adoptCreateReducer = (state = {}, action) => {
@@ -119,6 +122,22 @@ export const adoptDeliverReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case ADOPT_DELIVER_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const adoptSummaryReducer = (
+  state = { loading: true, summary: {} },
+  action
+) => {
+  switch (action.type) {
+    case ADOPT_SUMMARY_REQUEST:
+      return { loading: true };
+    case ADOPT_SUMMARY_SUCCESS:
+      return { loading: false, summary: action.payload };
+    case ADOPT_SUMMARY_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

@@ -2,8 +2,54 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Adopt from '../models/adoptModel.js';
 import { isAuth, isAdmin } from '../utils.js';
+import User from '../models/userModel.js';
+import Animal from '../models/animalModel.js';
 
 const adoptRouter = express.Router();
+
+adoptRouter.get(
+  '/summary',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const adopts = await Adopt.aggregate([
+      {
+        $group: {
+          _id: null,
+          numAdopts: { $sum: 1 },
+          totalSales: { $sum: '$totalPrice' },
+        },
+      },
+    ]);
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: null,
+          numUsers: { $sum: 1 },
+        },
+      },
+    ]);
+    const dailyAdopts = await Adopt.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          adopts: { $sum: 1 },
+          sales: { $sum: '$totalPrice' },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    const animalCategories = await Animal.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    res.send({ users, adopts, dailyAdopts, animalCategories });
+  })
+);
 
 adoptRouter.get(
   '/',
