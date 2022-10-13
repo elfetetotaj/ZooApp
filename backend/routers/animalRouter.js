@@ -2,14 +2,16 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
 import Animal from '../models/animalModel.js';
-import { isAdmin, isAuth } from '../utils.js';
+import { isAdmin, isAuth, isSellerOrAdmin } from '../utils.js';
 
 const animalRouter = express.Router();
 
 animalRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
-    const animals = await Animal.find({});
+    const seller = req.query.seller || '';
+    const sellerFilter = seller ? { seller } : {};
+    const animals = await Animal.find({ ...sellerFilter });
     res.send(animals);
   })
 );
@@ -38,10 +40,11 @@ animalRouter.get(
 animalRouter.post(
   '/',
   isAuth,
-  isAdmin,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
     const animal = new Animal({
       name: 'sample name ' + Date.now(),
+      seller: req.user._id,
       image: '../images/bear.jpg',
       price: 0,
       category: 'test',
@@ -57,7 +60,7 @@ animalRouter.post(
 animalRouter.put(
   '/:id',
   isAuth,
-  isAdmin,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
     const animalId = req.params.id;
     const animal = await Animal.findById(animalId);

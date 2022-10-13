@@ -4,9 +4,11 @@ import { listAdopts, deleteAdopt } from '../actions/adoptActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { ADOPT_DELETE_RESET } from '../constants/adoptConstants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 export default function AdoptListView(props) {
+  const { pathname } = useLocation();
+  const sellerMode = pathname.indexOf('/seller') >= 0;
   const navigate = useNavigate();
   const adoptList = useSelector((state) => state.adoptList);
   const { loading, error, adopts } = adoptList;
@@ -16,13 +18,15 @@ export default function AdoptListView(props) {
     error: errorDelete,
     success: successDelete,
   } = adoptDelete;
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
   const dispatch = useDispatch();
   useEffect(() => {
     if (successDelete) {
       dispatch({ type: ADOPT_DELETE_RESET });
     }
-    dispatch(listAdopts());
-  }, [dispatch, successDelete]);
+    dispatch(listAdopts({ seller: sellerMode ? userInfo._id : '' }));
+  }, [dispatch, sellerMode, userInfo._id, successDelete]);
   const deleteHandler = (adopt) => {
     if (window.confirm('Are you sure to delete?')) {
       dispatch(deleteAdopt(adopt._id));

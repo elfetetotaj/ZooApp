@@ -27,6 +27,7 @@ import ChatBox from './components/ChatBox';
 import ParallaxView from './views/ParallaxView';
 import HomePage from './views/HomePage';
 import Container from "react-bootstrap/Container";
+import SellerRoute from './components/SellerRoute';
 
 
 function App() {
@@ -73,6 +74,21 @@ function App() {
               </div>
             ) : (
               <Link to="/signin">Sign In</Link>
+            )}
+            {userInfo && userInfo.isSeller && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  Seller <i className="fa fa-caret-down"></i>
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/animallist/seller">Products</Link>
+                  </li>
+                  <li>
+                    <Link to="/adoptionlist/seller">Orders</Link>
+                  </li>
+                </ul>
+              </div>
             )}
             {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
@@ -168,6 +184,22 @@ function App() {
                   <AdminRoute>
                     <SupportView />
                   </AdminRoute>
+                }
+              />
+              <Route
+                path="/animallist/seller"
+                element={
+                  <SellerRoute>
+                    <AnimalListView />
+                  </SellerRoute>
+                }
+              />
+               <Route
+                path="/adoptionlist/seller"
+                element={
+                  <SellerRoute>
+                    <AdoptListView />
+                  </SellerRoute>
                 }
               />
               <Route

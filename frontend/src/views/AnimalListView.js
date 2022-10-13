@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { createAnimal, listAnimals, deleteAnimal } from '../actions/animalActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -10,6 +10,8 @@ import {
 } from '../constants/animalConstants';
 
 export default function AnimalListView(props) {
+  const { pathname } = useLocation();
+  const sellerMode = pathname.indexOf('/seller') >= 0;
   const navigate = useNavigate();
   const animalList = useSelector((state) => state.animalList);
   const { loading, error, animals } = animalList;
@@ -26,6 +28,8 @@ export default function AnimalListView(props) {
     error: errorDelete,
     success: successDelete,
   } = animalDelete;
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
   const dispatch = useDispatch();
   useEffect(() => {
     if (successCreate) {
@@ -35,8 +39,17 @@ export default function AnimalListView(props) {
     if (successDelete) {
       dispatch({ type: ANIMAL_DELETE_RESET });
     }
-    dispatch(listAnimals());
-  }, [createdAnimal, dispatch, navigate, successCreate, successDelete]);
+    dispatch(listAnimals ({ 
+      seller: sellerMode ? userInfo._id : '' }));
+  }, [
+    createdAnimal, 
+    dispatch, 
+    navigate, 
+    successCreate, 
+    successDelete,
+    sellerMode,
+    userInfo._id
+  ]);
   const deleteHandler = (animal) => {
     if (window.confirm('Are you sure to delete?')) {
       dispatch(deleteAnimal(animal._id));

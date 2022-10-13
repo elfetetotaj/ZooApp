@@ -10,6 +10,9 @@ export default function ProfileView() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [sellerName, setSellerName] = useState('');
+  const [sellerLogo, setSellerLogo] = useState('');
+  const [sellerDescription, setSellerDescription] = useState('');
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
   const userDetails = useSelector((state) => state.userDetails);
@@ -28,6 +31,11 @@ export default function ProfileView() {
     } else {
       setName(user.name);
       setEmail(user.email);
+      if (user.seller) {
+        setSellerName(user.seller.name);
+        setSellerLogo(user.seller.logo);
+        setSellerDescription(user.seller.description);
+      }
     }
   }, [dispatch, userInfo._id, user]);
   const submitHandler = (e) => {
@@ -35,7 +43,15 @@ export default function ProfileView() {
     if (password !== confirmPassword) {
       alert('Password and Confirm Password Are Not Matched');
     } else {
-      dispatch(updateUserProfile({ userId: user._id, name, email, password }));
+      dispatch(updateUserProfile({
+        userId: user._id,
+        name,
+        email,
+        password,
+        sellerName,
+        sellerLogo,
+        sellerDescription,
+      }));
     }
   };
   return (
@@ -50,7 +66,7 @@ export default function ProfileView() {
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <>
-          {loadingUpdate && <LoadingBox></LoadingBox>}
+            {loadingUpdate && <LoadingBox></LoadingBox>}
             {errorUpdate && (
               <MessageBox variant="danger">{errorUpdate}</MessageBox>
             )}
@@ -97,6 +113,41 @@ export default function ProfileView() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
             </div>
+            {user.isSeller && (
+              <>
+                <h2>Seller</h2>
+                <div>
+                  <label htmlFor="sellerName">Seller Name</label>
+                  <input
+                    id="sellerName"
+                    type="text"
+                    placeholder="Enter Seller Name"
+                    value={sellerName}
+                    onChange={(e) => setSellerName(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <label htmlFor="sellerLogo">Seller Logo</label>
+                  <input
+                    id="sellerLogo"
+                    type="text"
+                    placeholder="Enter Seller Logo"
+                    value={sellerLogo}
+                    onChange={(e) => setSellerLogo(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <label htmlFor="sellerDescription">Seller Description</label>
+                  <input
+                    id="sellerDescription"
+                    type="text"
+                    placeholder="Enter Seller Description"
+                    value={sellerDescription}
+                    onChange={(e) => setSellerDescription(e.target.value)}
+                  ></input>
+                </div>
+              </>
+            )}
             <div>
               <label />
               <button className="primary" type="submit">

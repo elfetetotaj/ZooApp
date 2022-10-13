@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Adopt from '../models/adoptModel.js';
-import { isAuth, isAdmin } from '../utils.js';
+import { isAuth, isAdmin, isSellerOrAdmin } from '../utils.js';
 import User from '../models/userModel.js';
 import Animal from '../models/animalModel.js';
 
@@ -54,9 +54,15 @@ adoptRouter.get(
 adoptRouter.get(
   '/',
   isAuth,
-  isAdmin,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
-    const adopts = await Adopt.find({}).populate('user', 'name');
+    const seller = req.query.seller || '';
+    const sellerFilter = seller ? { seller } : {};
+
+    const adopts = await Adopt.find({ ...sellerFilter }).populate(
+      'user',
+      'name'
+    );
     res.send(adopts);
   })
 );
@@ -78,6 +84,7 @@ adoptRouter.post(
       res.status(400).send({ message: 'List is empty' });
     } else {
       const adopt = new Adopt({
+        seller: req.body.orderItems[0].seller,
         adoptItems: req.body.adoptItems,
         shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,

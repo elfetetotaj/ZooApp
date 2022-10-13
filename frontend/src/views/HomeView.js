@@ -11,7 +11,7 @@ export default function HomeView() {
     const { loading, error, animals } = animalList;
 
     useEffect(() => {
-        dispatch(listAnimals());
+        dispatch(listAnimals({}));
     }, [dispatch]);
     return (
         <div>

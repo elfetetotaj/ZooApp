@@ -113,13 +113,14 @@ export const listAdoptMine = () => async (dispatch, getState) => {
   }
 };
 
-export const listAdopts = () => async (dispatch, getState) => {
+export const listAdopts = ({ seller = '' 
+}) => async (dispatch, getState) => {
   dispatch({ type: ADOPT_LIST_REQUEST });
   const {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get('/api/adopts', {
+    const { data } = await Axios.get( `/api/adopts?seller=${seller}` , {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     console.log(data);
