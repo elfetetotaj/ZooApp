@@ -22,6 +22,8 @@ import UserListView from './views/UserListView';
 import UserEditView from './views/UserEditView';
 import MapView from './views/MapView';
 import DashboardView from './views/DashboardView';
+import SupportView from './views/SuportView';
+import ChatBox from './components/ChatBox';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -85,6 +87,9 @@ function App() {
                   </li>
                   <li>
                     <Link to="/userlist">Users</Link>
+                  </li>
+                  <li>
+                    <Link to="/support">Support</Link>
                   </li>
                 </ul>
               </div>
@@ -152,6 +157,14 @@ function App() {
               }
             />
             <Route
+              path="/support"
+              element={
+                <AdminRoute>
+                  <SupportView/>
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/profile"
               element={
                 <PrivateRoute>
@@ -170,7 +183,10 @@ function App() {
             <Route path="/" element={<HomeView />} exact />
           </Routes>
         </main>
-        <footer className="row center">All right reserved</footer>
+        <footer className="row center">
+          {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
+          <div>All right reserved</div>{' '}
+        </footer>
       </div>
     </BrowserRouter>
   );
