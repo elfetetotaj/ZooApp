@@ -11,7 +11,11 @@ animalRouter.get(
   expressAsyncHandler(async (req, res) => {
     const seller = req.query.seller || '';
     const sellerFilter = seller ? { seller } : {};
-    const animals = await Animal.find({ ...sellerFilter });
+    const animals = await Animal.find({ 
+      ...sellerFilter }).populate(
+        'seller',
+        'seller.name seller.logo'
+      );
     res.send(animals);
   })
 );
@@ -28,7 +32,10 @@ animalRouter.get(
 animalRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const animal = await Animal.findById(req.params.id);
+    const animal = await Animal.findById(req.params.id).populate(
+      'seller',
+      'seller.name seller.logo seller.rating seller.numReviews'
+    );
     if (animal) {
       res.send(animal);
     } else {

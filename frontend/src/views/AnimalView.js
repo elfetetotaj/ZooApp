@@ -90,6 +90,18 @@ export default function AnimalView(props) {
             <div className="col-1">
               <div className="card card-body">
                 <ul>
+                <li>
+                    Seller{' '}
+                    <h2>
+                      <Link to={`/seller/${animal.seller._id}`}>
+                        {/* {animal.seller.seller.name} */}
+                      </Link>
+                    </h2>
+                    <Rating
+                      rating={animal.seller.seller.rating}
+                      numReviews={animal.seller.seller.numReviews}
+                    ></Rating>
+                  </li>
                   <li>
                     <div className="row">
                       <div>Price</div>

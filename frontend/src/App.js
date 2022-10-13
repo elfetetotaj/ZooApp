@@ -28,6 +28,7 @@ import ParallaxView from './views/ParallaxView';
 import HomePage from './views/HomePage';
 import Container from "react-bootstrap/Container";
 import SellerRoute from './components/SellerRoute';
+import SellerView from './views/SellerView';
 
 
 function App() {
@@ -82,10 +83,10 @@ function App() {
                 </Link>
                 <ul className="dropdown-content">
                   <li>
-                    <Link to="/animallist/seller">Products</Link>
+                    <Link to="/animallist/seller">Animals</Link>
                   </li>
                   <li>
-                    <Link to="/adoptionlist/seller">Orders</Link>
+                    <Link to="/adoptionlist/seller">Adopts</Link>
                   </li>
                 </ul>
               </div>
@@ -119,6 +120,7 @@ function App() {
         <main>
           <Container className="mt-3">
             <Routes>
+            <Route path="/seller/:id" element={<SellerView />} />
               <Route path="/cart" element={<CartView />} />
               <Route path="/cart/:id" element={<CartView />} />
               <Route path="/animal/:id" element={<AnimalView />} exact />
