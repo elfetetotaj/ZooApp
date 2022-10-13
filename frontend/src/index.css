@@ -31,8 +31,8 @@ header {
 }
 main {
   grid-area: main;
-  padding: 1rem;
-}
+  /* padding: 1rem;*/
+} 
 footer {
   grid-area: footer;
   background-color: #203040;
@@ -389,4 +389,51 @@ img.large {
 }
 .support-users .unread {
   background-color: #f02020;
+}
+
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.imagee {
+  min-height: 100vh;
+  position: relative;
+}
+
+.imagee .contentt {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.contentt span.img-txt {
+  background-color: #333;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 1rem;
+  font-size: 1.5rem;
+  letter-spacing: 10px;
+}
+
+
+
+h3 {
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  font: 1.3rem;
+  text-align: center;
+}
+
+.text-boxx {
+  text-align: center;
+  padding: 3rem 1rem;
+  text-align: justify;
 }

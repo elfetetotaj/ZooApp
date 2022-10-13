@@ -24,6 +24,10 @@ import MapView from './views/MapView';
 import DashboardView from './views/DashboardView';
 import SupportView from './views/SuportView';
 import ChatBox from './components/ChatBox';
+import ParallaxView from './views/ParallaxView';
+import HomePage from './views/HomePage';
+import Container from "react-bootstrap/Container";
+
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -70,7 +74,7 @@ function App() {
             ) : (
               <Link to="/signin">Sign In</Link>
             )}
-             {userInfo && userInfo.isAdmin && (
+            {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
                 <Link to="#admin">
                   Admin <i className="fa fa-caret-down"></i>
@@ -97,90 +101,95 @@ function App() {
           </div>
         </header>
         <main>
+          <Container className="mt-3">
+            <Routes>
+              <Route path="/cart" element={<CartView />} />
+              <Route path="/cart/:id" element={<CartView />} />
+              <Route path="/animal/:id" element={<AnimalView />} exact />
+              <Route path="/signin" element={<SignInView />} />
+              <Route path="/register" element={<RegisterView />} />
+              <Route path="/shipping" element={<ShippingAddressView />} />
+              <Route path="/payment" element={<PaymentMethodView />} />
+              <Route path="/finishAdoption" element={<FinishAdoptionView />} />
+              <Route path="/adopt/:id" element={<AdoptView />} />
+              <Route path="/adoptionhistory" element={<AdoptionHistoryView />} />
+              <Route path="/p" element={<ParallaxView />} />
+              <Route
+                path="/animallist"
+                element={
+                  <AdminRoute>
+                    <AnimalListView />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/animal/:id/edit"
+                element={
+                  <AdminRoute>
+                    <AnimalEditView />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/adoptlist"
+                element={
+                  <AdminRoute>
+                    <AdoptListView />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/userlist"
+                element={
+                  <AdminRoute>
+                    <UserListView />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/user/:id/edit"
+                element={
+                  <AdminRoute>
+                    <UserEditView />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <AdminRoute>
+                    <DashboardView />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/support"
+                element={
+                  <AdminRoute>
+                    <SupportView />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <ProfileView />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/map"
+                element={
+                  <PrivateRoute>
+                    <MapView />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </Container>
           <Routes>
-            <Route path="/cart" element={<CartView />} />
-            <Route path="/cart/:id" element={<CartView />} />
-            <Route path="/animal/:id" element={<AnimalView />} exact/>
-            <Route path="/signin" element={<SignInView />} />
-            <Route path="/register" element={<RegisterView />} />
-            <Route path="/shipping" element={<ShippingAddressView />} />
-            <Route path="/payment" element={<PaymentMethodView />} />
-            <Route path="/finishAdoption" element={<FinishAdoptionView />} />
-            <Route path="/adopt/:id" element={<AdoptView />} />
-            <Route path="/adoptionhistory" element={<AdoptionHistoryView />} />
-            <Route
-              path="/animallist"
-              element={
-                <AdminRoute>
-                  <AnimalListView />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/animal/:id/edit"
-              element={
-                <AdminRoute>
-                  <AnimalEditView />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/adoptlist"
-              element={
-                <AdminRoute>
-                  <AdoptListView />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/userlist"
-              element={
-                <AdminRoute>
-                  <UserListView />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/user/:id/edit"
-              element={
-                <AdminRoute>
-                  <UserEditView/>
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/dashboard"
-              element={
-                <AdminRoute>
-                  <DashboardView/>
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/support"
-              element={
-                <AdminRoute>
-                  <SupportView/>
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <PrivateRoute>
-                  <ProfileView />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/map"
-              element={
-                <PrivateRoute>
-                  <MapView />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/" element={<HomeView />} exact />
+            <Route path="/" element={<HomePage />} exact />
           </Routes>
         </main>
         <footer className="row center">
