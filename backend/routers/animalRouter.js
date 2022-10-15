@@ -19,6 +19,92 @@ animalRouter.get(
     res.send(animals);
   })
 );
+animalRouter.get(
+  '/categories',
+  expressAsyncHandler(async (req, res) => {
+    const categories = await Animal.find().distinct('category');
+    res.send(categories);
+  })
+);
+
+const PAGE_SIZE = 3;
+animalRouter.get(
+  '/search',
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const pageSize = query.pageSize || PAGE_SIZE;
+    const page = query.page || 1;
+    const category = query.category || '';
+    const price = query.price || '';
+    const rating = query.rating || '';
+    const adopt = query.adopt || '';
+    const searchQuery = query.query || '';
+
+    const queryFilter =
+      searchQuery && searchQuery !== 'all'
+        ? {
+            name: {
+              $regex: searchQuery,
+              $options: 'i',
+            },
+          }
+        : {};
+    const categoryFilter = category && category !== 'all' ? { category } : {};
+    const ratingFilter =
+      rating && rating !== 'all'
+        ? {
+            rating: {
+              $gte: Number(rating),
+            },
+          }
+        : {};
+    const priceFilter =
+      price && price !== 'all'
+        ? {
+            // 1-50
+            price: {
+              $gte: Number(price.split('-')[0]),
+              $lte: Number(price.split('-')[1]),
+            },
+          }
+        : {};
+    const sortAdopt =
+      adopt === 'featured'
+        ? { featured: -1 }
+        : adopt === 'lowest'
+        ? { price: 1 }
+        : adopt === 'highest'
+        ? { price: -1 }
+        : adopt === 'toprated'
+        ? { rating: -1 }
+        : adopt === 'newest'
+        ? { createdAt: -1 }
+        : { _id: -1 };
+
+    const animals = await Animal.find({
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    })
+      .sort(sortAdopt)
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
+
+    const countAnimals = await Animal.countDocuments({
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    });
+    res.send({
+      animals,
+      countAnimals,
+      page,
+      pages: Math.ceil(countAnimals / pageSize),
+    });
+  })
+);
 
 animalRouter.get(
   '/seed',

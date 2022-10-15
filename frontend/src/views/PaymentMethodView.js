@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { savePaymentMethod } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 export default function PaymentMethodView(props) {
     const navigate = useNavigate();
@@ -20,45 +22,55 @@ export default function PaymentMethodView(props) {
     };
     return (
         <div>
-            <CheckoutSteps step1 step2 step3></CheckoutSteps>
-            <form className="form" onSubmit={submitHandler}>
-                <div>
-                    <h1>Payment Method</h1>
-                </div>
-                <div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="paypal"
-                            value="PayPal"
-                            name="paymentMethod"
-                            required
-                            checked
-                            onChange={(e) => setPaymentMethod(e.target.value)}
-                        ></input>
-                        <label htmlFor="paypal">PayPal</label>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="stripe"
-                            value="Stripe"
-                            name="paymentMethod"
-                            required
-                            onChange={(e) => setPaymentMethod(e.target.value)}
-                        ></input>
-                        <label htmlFor="stripe">Stripe</label>
-                    </div>
-                </div>
-                <div>
-                    <label />
-                    <button className="primary" type="submit">
-                        Continue
-                    </button>
-                </div>
-            </form>
-        </div>
+      <CheckoutSteps step1 step2 step3></CheckoutSteps>
+      <div className="container small-container">
+        <h1 className="my-3">Payment Method</h1>
+        <Form onSubmit={submitHandler}>
+          <div className="mb-3">
+            <Form.Check
+              type="radio"
+              id="PayPal"
+              label="PayPal"
+              value="PayPal"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <Form.Check
+              type="radio"
+              id="Stripe"
+              label="Stripe"
+              value="Stripe"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <Form.Check
+              type="radio"
+              id="Cash"
+              label="Cash"
+              value="Cash"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <Form.Check
+              type="radio"
+              id="Bank Transfer"
+              label="Bank Transfer"
+              value="Bank Transfer"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <Button type="submit">Continue</Button>
+          </div>
+        </Form>
+      </div>
+    </div>
     );
 }

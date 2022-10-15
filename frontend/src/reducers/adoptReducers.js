@@ -34,7 +34,8 @@ export const adoptCreateReducer = (state = {}, action) => {
     case ADOPT_CREATE_REQUEST:
       return { loading: true };
     case ADOPT_CREATE_SUCCESS:
-      return { loading: false, success: true, adopt: action.payload };
+      return { loading: false, success: true, adopt: action.payload, page: action.payload.page,
+        pages: action.payload.pages, };
     case ADOPT_CREATE_FAIL:
       return { loading: false, error: action.payload };
     case ADOPT_CREATE_RESET:
@@ -77,7 +78,12 @@ export const adoptMineListReducer = (state = { adopts: [] }, action) => {
     case ADOPT_MINE_LIST_REQUEST:
       return { loading: true };
     case ADOPT_MINE_LIST_SUCCESS:
-      return { loading: false, adopts: action.payload };
+      return { 
+        loading: false, 
+        adopts: action.payload,
+        page: action.payload.page,
+        pages: action.payload.pages, 
+      };
     case ADOPT_MINE_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
@@ -89,7 +95,12 @@ export const adoptListReducer = (state = { adopts: [] }, action) => {
     case ADOPT_LIST_REQUEST:
       return { loading: true };
     case ADOPT_LIST_SUCCESS:
-      return { loading: false, adopts: action.payload };
+      return { 
+        loading: false, 
+        adopts: action.payload,
+        page: action.payload.page,
+        pages: action.payload.pages, 
+      };
     case ADOPT_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:

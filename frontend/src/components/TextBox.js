@@ -2,7 +2,7 @@ import React from 'react'
 
 const TextBox = () => {
     return (
-        <div className='text-box'>
+        <div className='text-boxx'>
             <h3>First Class Ticket</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores doloribus accusantium, quam odio
             repudiandae mollitia eos sapiente quo labore magnam, dignissimos praesentium blanditiis ratione error

@@ -8,6 +8,10 @@ import {
   ANIMAL_CREATE_RESET,
   ANIMAL_DELETE_RESET
 } from '../constants/animalConstants';
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import Table from "react-bootstrap/Table";
 
 export default function AnimalListView(props) {
   const { pathname } = useLocation();
@@ -60,12 +64,18 @@ export default function AnimalListView(props) {
   };
   return (
     <div>
-      <div className="row">
-        <h1>Animals</h1>
-        <button type="button" className="primary" onClick={createHandler}>
-          Create Animal
-        </button>
-      </div>
+      <Row>
+        <Col>
+          <h1>Animals</h1>
+        </Col>
+        <Col className="col text-end">
+          <div>
+            <Button type="button" variant="success" onClick={createHandler}>
+              Create Animal
+            </Button>
+          </div>
+        </Col>
+      </Row>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       {loadingCreate && <LoadingBox></LoadingBox>}
@@ -78,7 +88,8 @@ export default function AnimalListView(props) {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <>
+        <Table striped bordered hover className="table">
           <thead>
             <tr>
               <th>ID</th>
@@ -98,27 +109,31 @@ export default function AnimalListView(props) {
                 <td>{animal.category}</td>
                 <td>{animal.image}</td>
                 <td>
-                  <button
+                  <Button
                     type="button"
                     className="small"
+                    variant="info"
                     onClick={() =>
                       navigate(`/animal/${animal._id}/edit`)
                     }
                   >
                     Edit
-                  </button>
-                  <button
+                  </Button>
+                  &nbsp;
+                    <Button
                     type="button"
+                    variant="danger"
                     className="small"
                     onClick={() => deleteHandler(animal)}
                   >
                     Delete
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
+        </>
       )}
     </div>
   );

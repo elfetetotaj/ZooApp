@@ -6,6 +6,11 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { ADOPT_CREATE_RESET } from '../constants/adoptConstants';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
+import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
 
 export default function FinishAdoptionView(props) {
     const navigate = useNavigate();
@@ -35,109 +40,126 @@ export default function FinishAdoptionView(props) {
     return (
         <div>
             <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
-            <div className="row top">
-                <div className="col-2">
-                    <ul>
-                        <li>
-                            <div className="card card-body">
-                                <h2>Shipping</h2>
-                                <p>
-                                    <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
-                                    <strong>Address: </strong> {cart.shippingAddress.address},
-                                    {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}
-                                    ,{cart.shippingAddress.country}
-                                </p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="card card-body">
-                                <h2>Payment</h2>
-                                <p>
-                                    <strong>Method:</strong> {cart.paymentMethod}
-                                </p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="card card-body">
-                                <h2>Adopt Items</h2>
-                                <ul>
-                                    {cart.cartItems.map((item) => (
-                                        <li key={item.animal}>
-                                            <div className="row">
-                                                <div>
-                                                    <img
-                                                        src={item.image}
-                                                        alt={item.name}
-                                                        className="small"
-                                                    ></img>
-                                                </div>
-                                                <div className="min-30">
-                                                    <Link to={`/animal/${item.animal}`}>
-                                                        {item.name}
-                                                    </Link>
-                                                </div>
+            <h1 className="my-3">Preview Adopt</h1>
+            <Row>
+                <Col md={8}>
+                    <Card className="mb-3">
+                        <Card.Body>
+                            <Card.Title>Shipping</Card.Title>
+                            <Card.Text>
+                                <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
+                                <strong>Address: </strong> {cart.shippingAddress.address},
+                                {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}
+                                ,{cart.shippingAddress.country}
+                            </Card.Text>
+                            <Link to="/shipping">
+                                <Button variant="info" type="button">
+                                    Edit
+                                </Button>
+                            </Link>
+                        </Card.Body>
+                    </Card>
+                    <Card className="mb-3">
+                        <Card.Body>
+                            <Card.Title>Payment</Card.Title>
+                            <Card.Text>
+                                <strong>Method:</strong> {cart.paymentMethod}
+                            </Card.Text>
+                            <Link to="/payment">
+                                <Button variant="info" type="button">
+                                    Edit
+                                </Button>
+                            </Link>
+                        </Card.Body>
+                    </Card>
+                    <Card className="mb-3">
+                        <Card.Body>
+                            <Card.Title>Items</Card.Title>
+                            <ListGroup variant="flush">
+                                {cart.cartItems.map((item) => (
+                                    <ListGroup.Item key={item.animal}>
+                                        <Row className="align-items-center">
+                                            <Col md={6}>
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.name}
+                                                    className="img-fluid rounded img-thumbnail"
+                                                ></img>{" "}
 
-                                                <div>
+                                                <Link to={`/animal/${item.animal}`}>
+                                                    {item.name}
+                                                </Link>
+                                            </Col>
+                                            <Col md={3}>
+
+                                                <span>
                                                     {item.qty} x ${item.price} = ${item.qty * item.price}
-                                                </div>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div className="col-1">
-                    <div className="card card-body">
-                        <ul>
-                            <li>
-                                <h2>Summary</h2>
-                            </li>
-                            <li>
-                                <div className="row">
-                                    <div>Items</div>
-                                    <div>${cart.itemsPrice.toFixed(2)}</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="row">
-                                    <div>Shipping</div>
-                                    <div>${cart.shippingPrice.toFixed(2)}</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="row">
-                                    <div>Tax</div>
-                                    <div>${cart.taxPrice.toFixed(2)}</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="row">
-                                    <div>
-                                        <strong>Total</strong>
+                                                </span>
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                            <Link to="/cart">
+                                <Button variant="info" type="button">
+                                    Edit
+                                </Button>
+                            </Link>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col md={4}>
+                    <Card>
+                        <Card.Body>
+                            <Card.Title>Summary</Card.Title>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Items</Col>
+                                        <Col>${cart.itemsPrice.toFixed(2)}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Shipping</Col>
+                                        <Col>${cart.shippingPrice.toFixed(2)}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Tax</Col>
+                                        <Col>${cart.taxPrice.toFixed(2)}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>
+                                            <strong> Order Total</strong>
+                                        </Col>
+                                        <Col>
+                                            <strong>${cart.totalPrice.toFixed(2)}</strong>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <div className="d-grid">
+                                        <Button
+                                            type="button"
+                                            onClick={finishAdoptionHandler}
+                                            className="primary block"
+                                            disabled={cart.cartItems.length === 0}
+                                        >
+                                            FinishAdoption
+                                        </Button>
                                     </div>
-                                    <div>
-                                        <strong>${cart.totalPrice.toFixed(2)}</strong>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <button
-                                    type="button"
-                                    onClick={finishAdoptionHandler}
-                                    className="primary block"
-                                    disabled={cart.cartItems.length === 0}
-                                >
-                                    FinishAdoption
-                                </button>
-                            </li>
-                            {loading && <LoadingBox></LoadingBox>}
-                            {error && <MessageBox variant="danger">{error}</MessageBox>}
-                        </ul>
-                    </div>
-                </div>
-            </div>
+                                    {loading && <LoadingBox></LoadingBox>}
+                                    {error && <MessageBox variant="danger">{error}</MessageBox>}
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
         </div>
     );
 }

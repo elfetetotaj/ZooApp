@@ -11,6 +11,11 @@ import {
   ADOPT_PAY_RESET,
   ADOPT_DELIVER_RESET,
 } from '../constants/adoptConstants';
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 export default function AdoptView(props) {
   const params = useParams();
@@ -52,7 +57,7 @@ export default function AdoptView(props) {
       (adopt && adopt._id !== adoptId)
     ) {
       dispatch({ type: ADOPT_PAY_RESET });
-      dispatch({ type: ADOPT_DELIVER_RESET});
+      dispatch({ type: ADOPT_DELIVER_RESET });
       dispatch(detailsAdopt(adoptId));
     } else {
       if (!adopt.isPaid) {
@@ -77,147 +82,142 @@ export default function AdoptView(props) {
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
-      <h1>Adopt {adopt._id}</h1>
-      <div className="row top">
-        <div className="col-2">
-          <ul>
-            <li>
-              <div className="card card-body">
-                <h2>Shipping</h2>
-                <p>
-                  <strong>Name:</strong> {adopt.shippingAddress.fullName} <br />
-                  <strong>Address: </strong> {adopt.shippingAddress.address},
-                  {adopt.shippingAddress.city},{' '}
-                  {adopt.shippingAddress.postalCode},
-                  {adopt.shippingAddress.country}
-                </p>
-                {adopt.isDelivered ? (
-                  <MessageBox variant="success">
-                    Delivered at {adopt.deliveredAt}
-                  </MessageBox>
-                ) : (
-                  <MessageBox variant="danger">Not Delivered</MessageBox>
-                )}
-              </div>
-            </li>
-            <li>
-              <div className="card card-body">
-                <h2>Payment</h2>
-                <p>
-                  <strong>Method:</strong> {adopt.paymentMethod}
-                </p>
-                {adopt.isPaid ? (
-                  <MessageBox variant="success">
-                    Paid at {adopt.paidAt}
-                  </MessageBox>
-                ) : (
-                  <MessageBox variant="danger">Not Paid</MessageBox>
-                )}
-              </div>
-            </li>
-            <li>
-              <div className="card card-body">
-                <h2>Adopt Items</h2>
-                <ul>
-                  {adopt.adoptItems.map((item) => (
-                    <li key={item.animal}>
-                      <div className="row">
-                        <div>
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="small"
-                          ></img>
-                        </div>
-                        <div className="min-30">
-                          <Link to={`/animal/${item.animal}`}>
-                            {item.name}
-                          </Link>
-                        </div>
-
-                        <div>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div className="col-1">
-          <div className="card card-body">
-            <ul>
-              <li>
-                <h2>Summary</h2>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Items</div>
-                  <div>${adopt.itemsPrice.toFixed(2)}</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Shipping</div>
-                  <div>${adopt.shippingPrice.toFixed(2)}</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Tax</div>
-                  <div>${adopt.taxPrice.toFixed(2)}</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>
-                    <strong> Total</strong>
-                  </div>
-                  <div>
-                    <strong>${adopt.totalPrice.toFixed(2)}</strong>
-                  </div>
-                </div>
-              </li>
-              {!adopt.isPaid && (
-                <li>
-                  {!sdkReady ? (
-                    <LoadingBox></LoadingBox>
-                  ) : (
-                    <>
-                      {errorPay && (
-                        <MessageBox variant="danger">{errorPay}</MessageBox>
-                      )}
-                      {loadingPay && <LoadingBox></LoadingBox>}
-
-                      <PayPalButton
-                        amount={adopt.totalPrice}
-                        onSuccess={successPaymentHnadler}
-                      ></PayPalButton>
-                    </>
-                  )}
-                </li>
+      <h1>Adopt {adopt.name}</h1>
+      <Row>
+        <Col md={8}>
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Shipping</Card.Title>
+              <Card.Text>
+                <strong>Name:</strong> {adopt.shippingAddress.fullName} <br />
+                <strong>Address: </strong> {adopt.shippingAddress.address},
+                {adopt.shippingAddress.city},{' '}
+                {adopt.shippingAddress.postalCode},
+                {adopt.shippingAddress.country}
+                &nbsp;
+              </Card.Text>
+              {adopt.isDelivered ? (
+                <MessageBox variant="success">
+                  Delivered at {adopt.deliveredAt}
+                </MessageBox>
+              ) : (
+                <MessageBox variant="danger">Not Delivered</MessageBox>
               )}
-               {userInfo.isAdmin && adopt.isPaid && !adopt.isDelivered && (
-                <li>
-                  {loadingDeliver && <LoadingBox></LoadingBox>}
-                  {errorDeliver && (
-                    <MessageBox variant="danger">{errorDeliver}</MessageBox>
-                  )}
-                  <button
-                    type="button"
-                    className="primary block"
-                    onClick={deliverHandler}
-                  >
-                    Deliver Adopt
-                  </button>
-                </li>
+            </Card.Body>
+          </Card>
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Payment</Card.Title>
+              <Card.Text>
+                <strong>Method:</strong> {adopt.paymentMethod}
+              </Card.Text>
+              {adopt.isPaid ? (
+                <MessageBox variant="success">
+                  Paid at {adopt.paidAt}
+                </MessageBox>
+              ) : (
+                <MessageBox variant="danger">Not Paid</MessageBox>
               )}
-            </ul>
-          </div>
-        </div>
-      </div>
+            </Card.Body>
+          </Card>
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Items</Card.Title>
+              <ListGroup variant="flush">
+                {adopt.adoptItems.map((item) => (
+                  <ListGroup.Item key={item.animal}>
+                    <Row className="align-items-center">
+                      <Col md={6}>
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="img-fluid rounded img-thumbnail"
+                        ></img>{" "}
+                        <Link to={`/animal/${item.animal}`}></Link>
+                      </Col>
+                      <Col md={3}>
+                        <span>{item.quantity}</span>
+                      </Col>
+                      <Col md={3}>${item.price}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4}>
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Order Summary</Card.Title>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Items</Col>
+                    <Col>${adopt.itemsPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Shipping</Col>
+                    <Col>${adopt.shippingPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Tax</Col>
+                    <Col>${adopt.taxPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>
+                      <strong> Order Total</strong>
+                    </Col>
+                    <Col>
+                      <strong>${adopt.totalPrice.toFixed(2)}</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                {!adopt.isPaid && (
+                  <ListGroup.Item>
+                    {!sdkReady ? (
+                      <LoadingBox></LoadingBox>
+                    ) : (
+                      <>
+                        {errorPay && (
+                          <MessageBox variant="danger">{errorPay}</MessageBox>
+                        )}
+                        {loadingPay && <LoadingBox></LoadingBox>}
+
+                        <PayPalButton
+                          amount={adopt.totalPrice}
+                          onSuccess={successPaymentHnadler}
+                        ></PayPalButton>
+                      </>
+                    )}
+                  </ListGroup.Item>
+                )}
+                {userInfo.isAdmin && adopt.isPaid && !adopt.isDelivered && (
+                  <ListGroup.Item>
+                    {loadingDeliver && <LoadingBox></LoadingBox>}
+                    {errorDeliver && (
+                      <MessageBox variant="danger">{errorDeliver}</MessageBox>
+                    )}
+                    <Button
+                      type="button"
+                      className="primary block"
+                      onClick={deliverHandler}
+                    >
+                      Deliver Adopt
+                    </Button>
+                  </ListGroup.Item>
+                )}
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 }

@@ -4,20 +4,23 @@ import { listAdopts, deleteAdopt } from '../actions/adoptActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { ADOPT_DELETE_RESET } from '../constants/adoptConstants';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 
 export default function AdoptListView(props) {
   const { pathname } = useLocation();
   const sellerMode = pathname.indexOf('/seller') >= 0;
   const navigate = useNavigate();
   const adoptList = useSelector((state) => state.adoptList);
-  const { loading, error, adopts } = adoptList;
+  const { loading, error, adopts, page, pages } = adoptList;
   const adoptDelete = useSelector((state) => state.adoptDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
   } = adoptDelete;
+
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
   const dispatch = useDispatch();
@@ -45,7 +48,7 @@ export default function AdoptListView(props) {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <Table striped bordered hover className="table">
           <thead>
             <tr>
               <th>ID</th>
@@ -71,27 +74,40 @@ export default function AdoptListView(props) {
                     : 'No'}
                 </td>
                 <td>
-                  <button
+                  <Button
                     type="button"
+                    variant="info"
                     className="small"
                     onClick={() => {
                       navigate(`/adopt/${adopt._id}`);
                     }}
                   >
                     Details
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
+                    variant="danger"
                     className="small"
                     onClick={() => deleteHandler(adopt)}
                   >
                     Delete
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+          <div>
+            {[...Array(pages).keys()].map((x) => (
+              <Link
+                className={x + 1 === Number(page) ? "btn text-bold" : "btn"}
+                key={x + 1}
+                to={`?page=${x + 1}`}
+              >
+                {x + 1}
+              </Link>
+            ))}
+          </div>
+        </Table>
       )}
     </div>
   );
