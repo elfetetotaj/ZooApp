@@ -21,6 +21,9 @@ const {
   ANIMAL_REVIEW_CREATE_SUCCESS,
   ANIMAL_REVIEW_CREATE_FAIL,
   ANIMAL_REVIEW_CREATE_RESET,
+  ANIMAL_CATEGORY_LIST_REQUEST,
+  ANIMAL_CATEGORY_LIST_SUCCESS,
+  ANIMAL_CATEGORY_LIST_FAIL,
 } = require('../constants/animalConstants');
 
 export const animalListReducer = (
@@ -104,6 +107,22 @@ export const animalReviewCreateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case ANIMAL_REVIEW_CREATE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const animalCategoryListReducer = (
+  state = { loading: true, animals: [] },
+  action
+) => {
+  switch (action.type) {
+    case ANIMAL_CATEGORY_LIST_REQUEST:
+      return { loading: true };
+    case ANIMAL_CATEGORY_LIST_SUCCESS:
+      return { loading: false, categories: action.payload };
+    case ANIMAL_CATEGORY_LIST_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

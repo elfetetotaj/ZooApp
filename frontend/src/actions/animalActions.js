@@ -18,20 +18,42 @@ import {
   ANIMAL_REVIEW_CREATE_REQUEST,
   ANIMAL_REVIEW_CREATE_SUCCESS,
   ANIMAL_REVIEW_CREATE_FAIL,
+  ANIMAL_CATEGORY_LIST_SUCCESS,
+  ANIMAL_CATEGORY_LIST_REQUEST,
+  ANIMAL_CATEGORY_LIST_FAIL,
 } from '../constants/animalConstants';
 
-export const listAnimals = ({ seller = '' 
+export const listAnimals = ({ seller = '',
+  name = '',
+  category = '',
+  adopt = '',
+  min = 0,
+  max = 0,
+  rating = 0,
 }) => async (dispatch) => {
   dispatch({
     type: ANIMAL_LIST_REQUEST,
   });
   try {
-    const { data } = await Axios.get(`/api/animals?seller=${seller}`);
+    const { data } = await Axios.get(`/api/animals?seller=${seller}&name=${name}&category=${category}&min=${min}&max=${max}&rating=${rating}&adopt=${adopt}`);
     dispatch({ type: ANIMAL_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: ANIMAL_LIST_FAIL, payload: error.message });
   }
 };
+
+export const listAnimalCategories = () => async (dispatch) => {
+  dispatch({
+    type: ANIMAL_CATEGORY_LIST_REQUEST,
+  });
+  try {
+    const { data } = await Axios.get(`/api/animals/categories`);
+    dispatch({ type: ANIMAL_CATEGORY_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: ANIMAL_CATEGORY_LIST_FAIL, payload: error.message });
+  }
+};
+
 export const detailsAnimal = (animalId) => async (dispatch) => {
   dispatch({ type: ANIMAL_DETAILS_REQUEST, payload: animalId });
   try {
