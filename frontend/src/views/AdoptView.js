@@ -190,7 +190,7 @@ export default function AdoptView(props) {
                         <MessageBox variant="danger">{errorPay}</MessageBox>
                       )}
                       {loadingPay && <LoadingBox></LoadingBox>}
-
+/
                       <PayPalButton
                         amount={adopt.totalPrice}
                         onSuccess={successPaymentHnadler}
