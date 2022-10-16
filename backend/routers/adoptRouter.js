@@ -84,7 +84,7 @@ adoptRouter.post(
       res.status(400).send({ message: 'List is empty' });
     } else {
       const adopt = new Adopt({
-        seller: req.body.orderItems[0].seller,
+        seller: req.body.adoptItems[0].seller,
         adoptItems: req.body.adoptItems,
         shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,

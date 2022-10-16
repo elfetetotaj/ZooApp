@@ -17,7 +17,14 @@ export default function Animal(props) {
           rating={animal.rating}
           numReviews={animal.numReviews}
         ></Rating>
-        <div className="price">${animal.price}</div>
+         <div className="row">
+          <div className="price">${animal.price}</div>
+          <div>
+            <Link to={`/seller/${animal.seller._id}`}>
+              {animal.seller.seller.name}
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

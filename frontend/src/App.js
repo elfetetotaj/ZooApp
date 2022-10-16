@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import HomeView from './views/HomeView';
@@ -28,10 +28,17 @@ import ParallaxView from './views/ParallaxView';
 import HomePage from './views/HomePage';
 import Container from "react-bootstrap/Container";
 import SellerRoute from './components/SellerRoute';
+import SellerView from './views/SellerView';
+import SearchBox from './components/SearchBox';
+import SearchView from './views/SearchView';
+import { listAnimalCategories } from './actions/animalActions';
+import LoadingBox from './components/LoadingBox';
+import MessageBox from './components/MessageBox';
 
 
 function App() {
   const cart = useSelector((state) => state.cart);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const { cartItems } = cart;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -39,14 +46,33 @@ function App() {
   const signoutHandler = () => {
     dispatch(signout());
   };
+  const animalCategoryList = useSelector((state) => state.animalCategoryList);
+  const {
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
+  } = animalCategoryList;
+  useEffect(() => {
+    dispatch(listAnimalCategories());
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <div className="grid-container">
         <header className="row">
           <div>
+            <button
+              type="button"
+              className="open-sidebar"
+              onClick={() => setSidebarIsOpen(true)}
+            >
+              <i className="fa fa-bars"></i>
+            </button>
             <Link className="brand" to="/">
               ZooLife
             </Link>
+            <div>
+              <SearchBox />
+            </div>
           </div>
           <div>
             <Link to="/cart">Add to list{cartItems.length > 0 && (
@@ -82,10 +108,10 @@ function App() {
                 </Link>
                 <ul className="dropdown-content">
                   <li>
-                    <Link to="/animallist/seller">Products</Link>
+                    <Link to="/animallist/seller">Animals</Link>
                   </li>
                   <li>
-                    <Link to="/adoptionlist/seller">Orders</Link>
+                    <Link to="/adoptionlist/seller">Adopts</Link>
                   </li>
                 </ul>
               </div>
@@ -116,9 +142,40 @@ function App() {
             )}
           </div>
         </header>
+        <aside className={sidebarIsOpen ? 'open' : ''}>
+          <ul className="categories">
+            <li>
+              <strong>Categories</strong>
+              <button
+                onClick={() => setSidebarIsOpen(false)}
+                className="close-sidebar"
+                type="button"
+              >
+                <i className="fa fa-close"></i>
+              </button>
+            </li>
+            {loadingCategories ? (
+              <LoadingBox></LoadingBox>
+            ) : errorCategories ? (
+              <MessageBox variant="danger">{errorCategories}</MessageBox>
+            ) : (
+              categories.map((c) => (
+                <li key={c}>
+                  <Link
+                    to={`/search/category/${c}`}
+                    onClick={() => setSidebarIsOpen(false)}
+                  >
+                    {c}
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+        </aside>
         <main>
           <Container className="mt-3">
             <Routes>
+              <Route path="/seller/:id" element={<SellerView />} />
               <Route path="/cart" element={<CartView />} />
               <Route path="/cart/:id" element={<CartView />} />
               <Route path="/animal/:id" element={<AnimalView />} exact />
@@ -129,6 +186,10 @@ function App() {
               <Route path="/finishAdoption" element={<FinishAdoptionView />} />
               <Route path="/adopt/:id" element={<AdoptView />} />
               <Route path="/adoptionhistory" element={<AdoptionHistoryView />} />
+              <Route path="/search/name/:name?" element={<SearchView />} />
+              <Route path="/search/category/:category" element={<SearchView />} />
+              <Route path="/search/category/:category/name/:name" element={<SearchView />} />
+              <Route path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/adopt/:adopt" element={<SearchView />} />
               <Route path="/p" element={<ParallaxView />} />
               <Route
                 path="/animallist"
@@ -194,7 +255,7 @@ function App() {
                   </SellerRoute>
                 }
               />
-               <Route
+              <Route
                 path="/adoptionlist/seller"
                 element={
                   <SellerRoute>

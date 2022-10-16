@@ -1,7 +1,7 @@
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducers';
-import { animalListReducer, animalDetailsReducer, animalCreateReducer, animalUpdateReducer, animalDeleteReducer, animalReviewCreateReducer } from './reducers/animalReducers';
+import { animalListReducer, animalDetailsReducer, animalCreateReducer, animalUpdateReducer, animalDeleteReducer, animalReviewCreateReducer, animalCategoryListReducer } from './reducers/animalReducers';
 import { userSigninReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer, userListReducer, userDeleteReducer, userUpdateReducer, userAddressMapReducer } from './reducers/userReducers';
 import {
   adoptCreateReducer,
@@ -55,6 +55,7 @@ const reducer = combineReducers({
   animalReviewCreate: animalReviewCreateReducer,
   userAddressMap: userAddressMapReducer,
   adoptSummary: adoptSummaryReducer,
+  animalCategoryList: animalCategoryListReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
