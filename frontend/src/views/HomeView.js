@@ -15,16 +15,20 @@ export default function HomeView() {
     }, [dispatch]);
     return (
         <div>
+             <h2>Animals</h2>
             {loading ? (
                 <LoadingBox></LoadingBox>
             ) : error ? (
                 <MessageBox variant="danger">{error}</MessageBox>
             ) : (
-                <div className="row center">
-                    {animals.map((animal) => (
-                        <Animal key={animal._id} animal={animal}></Animal>
-                    ))}
-                </div>
+                <>
+                    {animals.length === 0 && <MessageBox>No Animal Found</MessageBox>}
+                    <div className="row center">
+                        {animals.map((animal) => (
+                            <Animal key={animal._id} animal={animal}></Animal>
+                        ))}
+                    </div>
+                </>
             )}
         </div>
     );

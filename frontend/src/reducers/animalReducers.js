@@ -34,7 +34,11 @@ export const animalListReducer = (
     case ANIMAL_LIST_REQUEST:
       return { loading: true };
     case ANIMAL_LIST_SUCCESS:
-      return { loading: false, animals: action.payload };
+      return { lloading: false,
+        animals: action.payload.animals,
+        pages: action.payload.pages,
+        page: action.payload.page,
+      };
     case ANIMAL_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
