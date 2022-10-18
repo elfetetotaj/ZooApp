@@ -27,16 +27,16 @@ export default function SellerView(props) {
         dispatch(listAnimals({ seller: sellerId }));
     }, [dispatch, sellerId]);
     return (
-        <div className="row top">
+        <div className="roww top">
             <div className="col-1">
                 {loading ? (
                     <LoadingBox></LoadingBox>
                 ) : error ? (
                     <MessageBox variant="danger">{error}</MessageBox>
                 ) : (
-                    <ul className="card card-body">
+                    <ul className="cardd cardd-body">
                         <li>
-                            <div className="row start">
+                            <div className="roww start">
                                 <div className="p-1">
                                     <img
                                         className="small"
@@ -70,7 +70,7 @@ export default function SellerView(props) {
                 ) : (
                     <>
                         {animals.length === 0 && <MessageBox>No Animal Found</MessageBox>}
-                        <div className="row center">
+                        <div className="roww center">
                             {animals.map((animal) => (
                                 <Animal key={animal._id} animal={animal}></Animal>
                             ))}

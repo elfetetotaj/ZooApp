@@ -4,6 +4,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { register } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default function RegisterView(props) {
     const navigate = useNavigate();
@@ -34,67 +37,48 @@ export default function RegisterView(props) {
         }
     }, [navigate, redirect, userInfo]);
     return (
-        <div>
-            <form className="form" onSubmit={submitHandler}>
-                <div>
-                    <h1>Create Account</h1>
-                </div>
+        <Container className="small-container">
+            <h1 className="my-3">Sign Up</h1>
+            <Form onSubmit={submitHandler} className="formm">
                 {loading && <LoadingBox></LoadingBox>}
                 {error && <MessageBox variant="danger">{error}</MessageBox>}
-                <div>
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter name"
-                        required
-                        onChange={(e) => setName(e.target.value)}
-                    ></input>
-                </div>
-                <div>
-                    <label htmlFor="email">Email address</label>
-                    <input
+                <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control onChange={(e) => setName(e.target.value)} required />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
                         type="email"
-                        id="email"
-                        placeholder="Enter email"
                         required
                         onChange={(e) => setEmail(e.target.value)}
-                    ></input>
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
                         type="password"
-                        id="password"
-                        placeholder="Enter password"
                         required
                         onChange={(e) => setPassword(e.target.value)}
-                    ></input>
+                    />
+                    <Form.Group className="mb-3" controlId="confirmPassword">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
+                </Form.Group>
+                <div className="mb-3">
+                    <Button type="submit">Sign Up</Button>
                 </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Enter confirm password"
-                        required
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    ></input>
+                <div className="mb-3">
+                    Already have an account?{' '}
+                    <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
                 </div>
-                <div>
-                    <label />
-                    <button className="primary" type="submit">
-                        Register
-                    </button>
-                </div>
-                <div>
-                    <label />
-                    <div>
-                        Already have an account?{' '}
-                        <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
-                    </div>
-                </div>
-            </form>
-        </div>
+            </Form>
+        </Container>
     );
 }

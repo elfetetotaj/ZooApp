@@ -34,6 +34,13 @@ import SearchView from './views/SearchView';
 import { listAnimalCategories } from './actions/animalActions';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
+import { ToastContainer, toast } from "react-toastify";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Badge from "react-bootstrap/Badge";
+import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
+import { LinkContainer } from "react-router-bootstrap";
 
 
 function App() {
@@ -57,122 +64,130 @@ function App() {
   }, [dispatch]);
   return (
     <BrowserRouter>
-      <div className="grid-container">
-        <header className="row">
-          <div>
-            <button
-              type="button"
-              className="open-sidebar"
-              onClick={() => setSidebarIsOpen(true)}
-            >
-              <i className="fa fa-bars"></i>
-            </button>
-            <Link className="brand" to="/">
-              ZooLife
-            </Link>
-            <div>
-              <SearchBox />
-            </div>
-          </div>
-          <div>
-            <Link to="/cart">Add to list{cartItems.length > 0 && (
-              <span className="badge">{cartItems.length}</span>
-            )}
-            </Link>
-            {userInfo ? (
-              <div className="dropdown">
-                <Link to="#">
-                  {userInfo.name} <i className="fa fa-caret-down"></i>{' '}
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/profile">User Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/adoptionhistory">Adoption History</Link>
-                  </li>
-                  <li>
-                    <Link to="#signout" onClick={signoutHandler}>
-                      Sign Out
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <Link to="/signin">Sign In</Link>
-            )}
-            {userInfo && userInfo.isSeller && (
-              <div className="dropdown">
-                <Link to="#admin">
-                  Seller <i className="fa fa-caret-down"></i>
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/animallist/seller">Animals</Link>
-                  </li>
-                  <li>
-                    <Link to="/adoptionlist/seller">Adopts</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-            {userInfo && userInfo.isAdmin && (
-              <div className="dropdown">
-                <Link to="#admin">
-                  Admin <i className="fa fa-caret-down"></i>
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/dashboard">Dashboard</Link>
-                  </li>
-                  <li>
-                    <Link to="/animallist">Animals</Link>
-                  </li>
-                  <li>
-                    <Link to="/adoptlist">Adopts</Link>
-                  </li>
-                  <li>
-                    <Link to="/userlist">Users</Link>
-                  </li>
-                  <li>
-                    <Link to="/support">Support</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </header>
-        <aside className={sidebarIsOpen ? 'open' : ''}>
-          <ul className="categories">
-            <li>
-              <strong>Categories</strong>
-              <button
-                onClick={() => setSidebarIsOpen(false)}
-                className="close-sidebar"
-                type="button"
+      <div /*className="grid-containerr"*/
+        className={
+          sidebarIsOpen
+            ? 'd-flex flex-column site-container active-cont'
+            : 'd-flex flex-column site-container'}>
+        <ToastContainer position="bottom-center" limit={1} />
+        <header /*className="roww"*/>
+          <Navbar bg="dark" variant="dark" expand="lg">
+
+            <Container>
+              <Button
+                variant="dark"
+                onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
               >
-                <i className="fa fa-close"></i>
-              </button>
-            </li>
+                <i className="fas fa-bars"></i>
+              </Button>
+              <LinkContainer to="/">
+                <Navbar.Brand>ZooLife</Navbar.Brand>
+              </LinkContainer>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav.Link href="/animals" className="nav_link" >Animals</Nav.Link>
+                <Nav.Link href="/contact" className="nav_link">Contact</Nav.Link>
+                <SearchBox id="searchButton" />
+                <Nav className="me-auto  w-100  justify-content-end">
+                  <Link to="/cart" className="nav-link">
+                    <i className="fa fa-shopping-cart" />
+                    {cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}
+                  </Link>
+                  {userInfo ? (
+                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                      <LinkContainer to="/profile">
+                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/adoptionhistory">
+                        <NavDropdown.Item>Adoption History</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Divider />
+                      <Link
+                        className="dropdown-item"
+                        to="#signout"
+                        onClick={signoutHandler}
+                      >
+                        Sign Out
+                      </Link>
+                    </NavDropdown>
+                  ) : (
+                    <Link className="nav-link" to="/signin">
+                      Sign In
+                    </Link>
+                  )}
+
+                  {userInfo && userInfo.isSeller && (
+                    <NavDropdown title="Seller" id="admin-nav-dropdown">
+                      <LinkContainer to="/animallist/seller">
+                        <NavDropdown.Item>Animals</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/adoptionlist/seller">
+                        <NavDropdown.Item>Adoptions</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
+                  {userInfo && userInfo.isAdmin && (
+                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                      <LinkContainer to="/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/animallist">
+                        <NavDropdown.Item>Animals</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/adoptlist">
+                        <NavDropdown.Item>Adoptions</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/userlist">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/support">
+                        <NavDropdown.Item>Support</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </header>
+        <div
+          className={
+            sidebarIsOpen
+              ? "active-nav side-navbar d-flex justify-content-between flex-wrap flex-column"
+              : "side-navbar d-flex justify-content-between flex-wrap flex-column"
+          }
+        >
+          <Nav className="flex-column text-white w-100 p-2">
+            <Nav.Item>
+              <strong>Categories</strong>
+            </Nav.Item>
             {loadingCategories ? (
               <LoadingBox></LoadingBox>
             ) : errorCategories ? (
               <MessageBox variant="danger">{errorCategories}</MessageBox>
             ) : (
-              categories.map((c) => (
-                <li key={c}>
-                  <Link
-                    to={`/search/category/${c}`}
+              categories.map((category) => (
+                <Nav.Item key={category}>
+                  <LinkContainer
+                    to={`/search/category/${category}`}
                     onClick={() => setSidebarIsOpen(false)}
                   >
-                    {c}
-                  </Link>
-                </li>
+                    <Nav.Link className="nav_link">{category}</Nav.Link>
+                  </LinkContainer>
+                </Nav.Item>
               ))
             )}
-          </ul>
-        </aside>
+          </Nav>
+        </div>
+
         <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} exact />
+          </Routes>
           <Container className="mt-3">
             <Routes>
               <Route path="/seller/:id" element={<SellerView />} />
@@ -191,6 +206,7 @@ function App() {
               <Route path="/search/category/:category/name/:name" element={<SearchView />} />
               <Route path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/adopt/:adopt" element={<SearchView />} />
               <Route path="/p" element={<ParallaxView />} />
+              <Route path="/animals" element={<HomeView />} />
               <Route
                 path="/animallist"
                 element={
@@ -281,11 +297,9 @@ function App() {
               />
             </Routes>
           </Container>
-          <Routes>
-            <Route path="/" element={<HomePage />} exact />
-          </Routes>
+
         </main>
-        <footer className="row center">
+        <footer className="roww center">
           {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
           <div>All right reserved</div>{' '}
         </footer>

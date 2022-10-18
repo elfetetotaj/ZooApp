@@ -95,7 +95,7 @@ export default function MapView(props) {
   };
 
   return googleApiKey ? (
-    <div className="full-container">
+    <div className="r">
       <LoadScript libraries={libs} googleMapsApiKey={googleApiKey}>
         <GoogleMap
           id="smaple-map"

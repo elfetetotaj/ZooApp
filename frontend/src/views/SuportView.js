@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import socketIOClient from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import MessageBox from '../components/MessageBox';
+import Container from '../../node_modules/react-bootstrap/esm/Container';
 
 let allUsers = [];
 let allMessages = [];
@@ -111,7 +112,7 @@ export default function SupportView() {
   };
 
   return (
-    <div className="row top full-container">
+    <Container className="roww top">
       <div className="col-1 support-users">
         {users.filter((x) => x._id !== userInfo._id).length === 0 && (
           <MessageBox>No Online User Found</MessageBox>
@@ -145,7 +146,7 @@ export default function SupportView() {
           <MessageBox>Select a user to start chat</MessageBox>
         ) : (
           <div>
-            <div className="row">
+            <div className="roww">
               <strong>Chat with {selectedUser.name} </strong>
             </div>
             <ul ref={uiMessagesRef}>
@@ -157,7 +158,7 @@ export default function SupportView() {
               ))}
             </ul>
             <div>
-              <form onSubmit={submitHandler} className="row">
+              <form onSubmit={submitHandler} className="roww formm">
                 <input
                   value={messageBody}
                   onChange={(e) => setMessageBody(e.target.value)}
@@ -170,6 +171,6 @@ export default function SupportView() {
           </div>
         )}
       </div>
-    </div>
+    </Container>
   );
 }

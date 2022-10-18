@@ -69,8 +69,8 @@ export default function ChatBox(props) {
           <i className="fa fa-support" />
         </button>
       ) : (
-        <div className="card card-body">
-          <div className="row">
+        <div className="cardd cardd-body">
+          <div className="roww">
             <strong>Support </strong>
             <button type="button" onClick={closeHandler}>
               <i className="fa fa-close" />
@@ -84,7 +84,7 @@ export default function ChatBox(props) {
             ))}
           </ul>
           <div>
-            <form onSubmit={submitHandler} className="row">
+            <form onSubmit={submitHandler} className="roww formm">
               <input
                 value={messageBody}
                 onChange={(e) => setMessageBody(e.target.value)}

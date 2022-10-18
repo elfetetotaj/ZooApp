@@ -6,6 +6,8 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { ADOPT_CREATE_RESET } from '../constants/adoptConstants';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function FinishAdoptionView(props) {
     const navigate = useNavigate();
@@ -35,11 +37,11 @@ export default function FinishAdoptionView(props) {
     return (
         <div>
             <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
-            <div className="row top">
-                <div className="col-2">
+            <Row>
+                <Col md={8}>
                     <ul>
                         <li>
-                            <div className="card card-body">
+                            <div className="cardd cardd-body">
                                 <h2>Shipping</h2>
                                 <p>
                                     <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
@@ -50,7 +52,7 @@ export default function FinishAdoptionView(props) {
                             </div>
                         </li>
                         <li>
-                            <div className="card card-body">
+                            <div className="cardd cardd-body">
                                 <h2>Payment</h2>
                                 <p>
                                     <strong>Method:</strong> {cart.paymentMethod}
@@ -58,12 +60,12 @@ export default function FinishAdoptionView(props) {
                             </div>
                         </li>
                         <li>
-                            <div className="card card-body">
+                            <div className="cardd cardd-body">
                                 <h2>Adopt Items</h2>
                                 <ul>
                                     {cart.cartItems.map((item) => (
                                         <li key={item.animal}>
-                                            <div className="row">
+                                            <div className="roww">
                                                 <div>
                                                     <img
                                                         src={item.image}
@@ -87,33 +89,33 @@ export default function FinishAdoptionView(props) {
                             </div>
                         </li>
                     </ul>
-                </div>
-                <div className="col-1">
-                    <div className="card card-body">
+                    </Col>
+                    <Col md={4}>
+                    <div className="cardd cardd-body">
                         <ul>
                             <li>
                                 <h2>Summary</h2>
                             </li>
                             <li>
-                                <div className="row">
+                                <div className="roww">
                                     <div>Items</div>
                                     <div>${cart.itemsPrice.toFixed(2)}</div>
                                 </div>
                             </li>
                             <li>
-                                <div className="row">
+                                <div className="roww">
                                     <div>Shipping</div>
                                     <div>${cart.shippingPrice.toFixed(2)}</div>
                                 </div>
                             </li>
                             <li>
-                                <div className="row">
+                                <div className="roww">
                                     <div>Tax</div>
                                     <div>${cart.taxPrice.toFixed(2)}</div>
                                 </div>
                             </li>
                             <li>
-                                <div className="row">
+                                <div className="roww">
                                     <div>
                                         <strong>Total</strong>
                                     </div>
@@ -136,8 +138,8 @@ export default function FinishAdoptionView(props) {
                             {error && <MessageBox variant="danger">{error}</MessageBox>}
                         </ul>
                     </div>
-                </div>
-            </div>
+                    </Col>
+                </Row>
         </div>
     );
 }

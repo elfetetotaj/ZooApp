@@ -1,7 +1,7 @@
-html {
+/* html {
   font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
-  box-sizing: border-box;
-}
+  /*box-sizing: border-box;
+} */
 body {
   margin: 0;
   height: 100vh;
@@ -15,7 +15,7 @@ body {
 }
 
 /* Layout */
-.grid-container {
+.grid-containerr {
   display: grid;
   grid-template-areas:
     'header'
@@ -52,7 +52,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #ff0400;
+  color: #6c6278;
 }
 ul {
   padding: 0;
@@ -103,7 +103,7 @@ a.brand {
   font-size: 3rem;
   font-weight: bold;
 }
-.badge {
+.badgee {
   background-color: #f02020;
   color: #ffffff;
   border-radius: 50%;
@@ -111,19 +111,19 @@ a.brand {
   font-size: 1.4rem;
   margin-left: 0.2rem;
 }
-.row {
+.roww {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 }
-.row.center {
+.roww.center {
   justify-content: center;
 }
-.row.top {
+.roww.top {
   align-items: flex-start;
 }
-.row.start {
+.roww.start {
   justify-content: flex-start;
 }
 .col-1 {
@@ -159,16 +159,16 @@ img.large {
 }
 
 /* Card */
-.card {
+.cardd {
   border: 0.1rem #c0c0c0 solid;
   background-color: #f8f8f8;
   border-radius: 0.5rem;
   margin: 1rem;
 }
-.card-body {
+.cardd-body {
   padding: 1rem;
 }
-.card-body > * {
+.cardd-body > * {
   margin-bottom: 0.5rem;
 }
 .price {
@@ -210,25 +210,25 @@ img.large {
   background-color: #eeffe0;
 }
 /* Form */
-.form {
+.formm {
   max-width: 60rem;
   margin: 0 auto;
 }
-.form > div {
+.formm > div {
   display: flex;
   flex-direction: column;
   margin: 1rem;
 }
-.form label {
+.formm label {
   margin: 1rem 0;
   /* display: block; */
 }
 /* Dropdown */
-.dropdown {
+.dropdownn {
   display: inline-block;
   position: relative;
 }
-.dropdown-content {
+.dropdownn-content {
   position: absolute;
   display: none;
   right: 0;
@@ -240,7 +240,7 @@ img.large {
   margin-top: 0.4rem;
   border-radius: 0.5rem;
 }
-.dropdown:hover .dropdown-content {
+.dropdownn:hover .dropdownn-content {
   display: block;
 }
 /* Checkout Steps */
@@ -256,25 +256,25 @@ img.large {
   color: #005cf0;
 }
 /* Table */
-.table {
+.tablee {
   width: 100%;
   border-collapse: collapse;
 }
-.table tbody tr:nth-of-type(odd) {
+.tablee tbody tr:nth-of-type(odd) {
   background-color: #f4f4f4;
 }
-.table td,
-.table th {
+.tablee td,
+.tablee th {
   text-align: left;
   border: 0.1rem solid #e4e4e4;
   padding: 0.5rem;
 }
-.table button {
+.tablee button {
   margin: 0 0.2rem;
 }
 
 /* Map */
-.full-container {
+.full-containerr {
   margin: -1rem;
   height: calc(100% + 2rem);
 }
@@ -346,6 +346,7 @@ img.large {
 .support-users {
   background: #f0f0f0;
   height: 100%;
+  width: 30% !important;
 }
 .support-users li {
   background-color: #f8f8f8;
@@ -369,6 +370,7 @@ img.large {
 }
 .support-messages {
   padding: 1rem;
+  width: 65% !important;
 }
 .support-messages input {
   width: calc(100% - 9rem);
@@ -498,4 +500,224 @@ button.close-sidebar {
 
 .active {
   font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a{
+  text-decoration: none;
+}
+.site-container {
+  min-height: 100vh;
+}
+main {
+  flex: 1;
+}
+.btn-primary,.btn-outline-primary {
+  background-color:#4E944F;
+  color: #ffff;
+  border:none ;
+}
+.animals {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rating span {
+  color: rgb(233, 233, 35);
+}
+
+.animal {
+  border: 1px #404040 solid;
+  margin: 1rem;
+}
+.animal img {
+  width: 50%;
+
+}
+.card-img-top{
+  max-height: 250px;
+  min-height: 250px;
+}
+.animal-info {
+  padding: 1rem;
+}
+.img-large{
+  max-width: 100%;
+}
+.border-bottom{
+  background-color:rgba(0, 0, 0, 0.05);
+  color: black;
+}
+
+.img-thumbnail {
+ max-height: 100px; 
+ min-height: 100px; 
+}
+.thumbnail{
+  background-color: rgb(255, 255, 255);
+}
+.small-container {
+  max-width: 600px;
+}
+.checkout-steps > div {
+  /* border-bottom: 0.2rem solid #a0a0a0; */
+  color: #a0a0a0;
+}
+.checkout-steps > div.active {
+  /* border-bottom: 0.2rem solid #f08000; */
+  color: #f08000;
+}
+.text-bold {
+  font-weight: bold;
+  color: green;
+}
+/* sidebar */
+.navbar-brand {
+  font-weight: bold;
+}
+.side-navbar {
+  width: 240px;
+  height: 100%;
+  position: fixed;
+  left: -300px;
+  background-color: #212529;
+  transition: 0.5s;
+}
+
+.site-container {
+  transition: 0.4s;
+}
+.active-cont {
+  margin-left: 240px;
+}
+.active-nav {
+  left: 0;
+}
+/* Map */
+
+.full-box {
+  height: 100vh;
+  max-width: initial;
+}
+.full-box header,
+.full-box footer {
+  display: none;
+}
+.full-box .container {
+  height: 100vh;
+  max-width: initial;
+  margin: 0;
+  padding: 0;
+}
+
+.full-box .mt-3 {
+  margin-top: 0 !important;
+}
+
+.map-input-box {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0.5rem auto;
+  width: 25rem;
+  height: 3rem;
+  display: flex;
+}
+.map-input-box input {
+  border-radius: 1rem 0 0 1rem;
+  border-right: 0;
+}
+.map-input-box button {
+  border-radius: 0 1rem 1rem 0;
+  border-left: 0;
+}
+/* Pagination */
+.pagination a {
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+  border: 0.1rem #a4a4a4 solid;
+  font-size: 1.6rem;
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.pagination a.active {
+  font-weight: bold;
+}
+
+/* Dashboard */
+
+.summary > li {
+  border: 0.1rem #c0c0c0 solid;
+  
+  border-radius: 0.5rem;
+  flex: 1 1 20rem;
+}
+.summary-title {
+  font-size: 2rem;
+  padding: 1rem;
+}
+.summary-body {
+  font-size: 3rem;
+ 
+  text-align: center;
+}
+
+.summary-title.color1 {
+  background-color: #f0e0e0;
+}
+.summary-title.color2 {
+  background-color: #e0f0e0;
+}
+.summary-title.color3 {
+  background-color: #e0e0f0;
+}
+button.thumbnail {
+  padding: 0;
+}
+/* .carousel-item img{
+  min-height: 713px;
+  max-height: 713px;
+} */
+.us{
+  color:green
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: forestgreen;
+  opacity: 1; /* Firefox */
+}
+input{
+  color: black;
+  border:ridge 1px green;
+  font-weight: bold;
+}
+.nav_link{
+  color: #bfbfbf !important;
+  width: 15%;
+}
+.nav_link:hover{
+  color: #ffff;
+}
+#q{
+  width: max-content;
+  min-width: 30%;
+}
+#box{
+  flex-wrap: nowrap;
 }

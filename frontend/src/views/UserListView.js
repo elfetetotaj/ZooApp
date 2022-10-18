@@ -5,6 +5,8 @@ import { listUsers, deleteUser } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
+import Table from "react-bootstrap/Table";
+import Button from 'react-bootstrap/Button';
 
 export default function UserListView(props) {
     const navigate = useNavigate();
@@ -41,7 +43,7 @@ export default function UserListView(props) {
             ) : error ? (
                 <MessageBox variant="danger">{error}</MessageBox>
             ) : (
-                <table className="table">
+                <Table striped bordered hover>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -61,25 +63,28 @@ export default function UserListView(props) {
                                 <td>{user.isSeller ? 'YES' : ' NO'}</td>
                                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                                 <td>
-                                    <button
+                                    <Button
                                         type="button"
+                                        variant="info"
                                         className="small"
                                         onClick={() => navigate(`/user/${user._id}/edit`)}
                                     >
                                         Edit
-                                    </button>
-                                    <button
+                                    </Button>
+                                    &nbsp;
+                                    <Button
                                         type="button"
+                                        variant="danger"
                                         className="small"
                                         onClick={() => deleteHandler(user)}
                                     >
                                         Delete
-                                    </button>
+                                    </Button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </Table>
             )}
         </div>
     );

@@ -4,6 +4,9 @@ import { detailsUser, updateUserProfile } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
 export default function ProfileView() {
   const [name, setName] = useState('');
@@ -55,11 +58,9 @@ export default function ProfileView() {
     }
   };
   return (
-    <div>
-      <form className="form" onSubmit={submitHandler}>
-        <div>
-          <h1>User Profile</h1>
-        </div>
+    <Container className="small-container">
+      <h1 className="my-3">User Profile</h1>
+      <Form onSubmit={submitHandler} className="formm">
         {loading ? (
           <LoadingBox></LoadingBox>
         ) : error ? (
@@ -75,88 +76,76 @@ export default function ProfileView() {
                 Profile Updated Successfully
               </MessageBox>
             )}
-            <div>
-              <label htmlFor="name">Name</label>
-              <input
-                id="name"
-                type="text"
-                placeholder="Enter name"
+            <Form.Group className="mb-3" controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
                 value={user.name}
                 onChange={(e) => setName(e.target.value)}
-              ></input>
-            </div>
-            <div>
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="name">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
                 type="email"
-                placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              ></input>
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
                 type="password"
-                placeholder="Enter password"
                 onChange={(e) => setPassword(e.target.value)}
-              ></input>
-            </div>
-            <div>
-              <label htmlFor="confirmPassword">confirm Password</label>
-              <input
-                id="confirmPassword"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
                 type="password"
-                placeholder="Enter confirm password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
-              ></input>
-            </div>
+              />
+            </Form.Group>
+
             {user.isSeller && (
               <>
-                <h2>Seller</h2>
-                <div>
-                  <label htmlFor="sellerName">Seller Name</label>
-                  <input
-                    id="sellerName"
-                    type="text"
-                    placeholder="Enter Seller Name"
+                <Form.Group className="mb-3" controlId="sellerName">
+                  <Form.Label>Seller name</Form.Label>
+                  <Form.Control
                     value={sellerName}
                     onChange={(e) => setSellerName(e.target.value)}
-                  ></input>
-                </div>
-                <div>
-                  <label htmlFor="sellerLogo">Seller Logo</label>
-                  <input
-                    id="sellerLogo"
-                    type="text"
-                    placeholder="Enter Seller Logo"
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="sellerLogo">
+                  <Form.Label>Seller Logo</Form.Label>
+                  <Form.Control
+                    type="email"
                     value={sellerLogo}
                     onChange={(e) => setSellerLogo(e.target.value)}
-                  ></input>
-                </div>
-                <div>
-                  <label htmlFor="sellerDescription">Seller Description</label>
-                  <input
-                    id="sellerDescription"
-                    type="text"
-                    placeholder="Enter Seller Description"
-                    value={sellerDescription}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="sellerDescription">
+                  <Form.Label>Seller Description</Form.Label>
+                  <Form.Control
+                    type="sellerDescription"
+                    value={sellerLogo}
                     onChange={(e) => setSellerDescription(e.target.value)}
-                  ></input>
-                </div>
+                    required
+                  />
+                </Form.Group>
               </>
             )}
-            <div>
-              <label />
-              <button className="primary" type="submit">
-                Update
-              </button>
+            <div className="mb-3">
+              <Button className="primary" type="submit">Update</Button>
             </div>
           </>
         )}
-      </form>
-    </div>
+      </Form>
+    </Container>
   );
 }

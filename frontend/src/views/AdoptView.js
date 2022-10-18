@@ -7,6 +7,8 @@ import { detailsAdopt, payAdopt, deliverAdopt } from '../actions/adoptActions';
 import { useParams } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import {
   ADOPT_PAY_RESET,
   ADOPT_DELIVER_RESET,
@@ -78,11 +80,11 @@ export default function AdoptView(props) {
   ) : (
     <div>
       <h1>Adopt {adopt._id}</h1>
-      <div className="row top">
-        <div className="col-2">
+      <Row>
+      <Col md={8}>
           <ul>
             <li>
-              <div className="card card-body">
+              <div className="cardd cardd-body">
                 <h2>Shipping</h2>
                 <p>
                   <strong>Name:</strong> {adopt.shippingAddress.fullName} <br />
@@ -101,7 +103,7 @@ export default function AdoptView(props) {
               </div>
             </li>
             <li>
-              <div className="card card-body">
+              <div className="cardd cardd-body">
                 <h2>Payment</h2>
                 <p>
                   <strong>Method:</strong> {adopt.paymentMethod}
@@ -116,12 +118,12 @@ export default function AdoptView(props) {
               </div>
             </li>
             <li>
-              <div className="card card-body">
+              <div className="cardd cardd-body">
                 <h2>Adopt Items</h2>
                 <ul>
                   {adopt.adoptItems.map((item) => (
                     <li key={item.animal}>
-                      <div className="row">
+                      <div className="roww">
                         <div>
                           <img
                             src={item.image}
@@ -145,33 +147,33 @@ export default function AdoptView(props) {
               </div>
             </li>
           </ul>
-        </div>
-        <div className="col-1">
-          <div className="card card-body">
+        </Col>
+        <Col md={4}>
+          <div className="cardd cardd-body">
             <ul>
               <li>
                 <h2>Summary</h2>
               </li>
               <li>
-                <div className="row">
+                <div className="roww">
                   <div>Items</div>
                   <div>${adopt.itemsPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
-                <div className="row">
+                <div className="roww">
                   <div>Shipping</div>
                   <div>${adopt.shippingPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
-                <div className="row">
+                <div className="roww">
                   <div>Tax</div>
                   <div>${adopt.taxPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
-                <div className="row">
+                <div className="roww">
                   <div>
                     <strong> Total</strong>
                   </div>
@@ -190,7 +192,6 @@ export default function AdoptView(props) {
                         <MessageBox variant="danger">{errorPay}</MessageBox>
                       )}
                       {loadingPay && <LoadingBox></LoadingBox>}
-/
                       <PayPalButton
                         amount={adopt.totalPrice}
                         onSuccess={successPaymentHnadler}
@@ -216,8 +217,8 @@ export default function AdoptView(props) {
               )}
             </ul>
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </div>
   );
 }

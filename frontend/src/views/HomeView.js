@@ -4,6 +4,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { listAnimals } from '../actions/animalActions';
+import Row from 'react-bootstrap/Row';
+import Col from "react-bootstrap/Col";
 
 export default function HomeView() {
     const dispatch = useDispatch();
@@ -15,7 +17,7 @@ export default function HomeView() {
     }, [dispatch]);
     return (
         <div>
-             <h2>Animals</h2>
+            <h2>Animals</h2>
             {loading ? (
                 <LoadingBox></LoadingBox>
             ) : error ? (
@@ -23,11 +25,13 @@ export default function HomeView() {
             ) : (
                 <>
                     {animals.length === 0 && <MessageBox>No Animal Found</MessageBox>}
-                    <div className="row center">
+                    <Row>
                         {animals.map((animal) => (
-                            <Animal key={animal._id} animal={animal}></Animal>
+                            <Col key={animal.name} sm={5} md={3} lg={3} className="mb-3">
+                                <Animal key={animal._id} animal={animal}></Animal>
+                            </Col>
                         ))}
-                    </div>
+                    </Row>
                 </>
             )}
         </div>

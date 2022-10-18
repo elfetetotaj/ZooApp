@@ -21,7 +21,7 @@ export default function PaymentMethodView(props) {
     return (
         <div>
             <CheckoutSteps step1 step2 step3></CheckoutSteps>
-            <form className="form" onSubmit={submitHandler}>
+            <form className="formm" onSubmit={submitHandler}>
                 <div>
                     <h1>Payment Method</h1>
                 </div>

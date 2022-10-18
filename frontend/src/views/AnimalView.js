@@ -6,6 +6,15 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Rating from '../components/Rating';
 import { ANIMAL_REVIEW_CREATE_RESET } from '../constants/animalConstants';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { Helmet } from 'react-helmet-async';
+import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
+import Form from 'react-bootstrap/Form';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 export default function AnimalView(props) {
   const navigate = useNavigate();
@@ -60,101 +69,117 @@ export default function AnimalView(props) {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <div>
-          <Link to="/">Back to result</Link>
-          <div className="row top">
-            <div className="col-2">
+          <Row>
+            <Col md={6}>
+              <Link to="/animals">Back to result</Link>
               <img
-                className="large"
+                className="img-large"
                 src={animal.image}
                 alt={animal.name}
               ></img>
-            </div>
-            <div className="col-1">
-              <ul>
-                <li>
+            </Col>
+            <Col md={3}>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
                   <h1>{animal.name}</h1>
-                </li>
-                <li>
+                </ListGroup.Item>
+                <ListGroup.Item>
                   <Rating
                     rating={animal.rating}
                     numReviews={animal.numReviews}
                   ></Rating>
-                </li>
-                <li>Pirce : ${animal.price}</li>
-                <li>
-                  Description:
+                </ListGroup.Item>
+                <ListGroup.Item><strong><em>Price : ${animal.price}</em></strong></ListGroup.Item>
+                <ListGroup.Item>
+                  {/* <Row xs={2} md={2} className="g-2">
+                {[product.image, ...product.images].map((x) => (
+                  <Col key={x}>
+                    <Card>
+                      <Button
+                        className="thumbnail"
+                        type="button"
+                        variant="light"
+                        onClick={() => setSelectedImage(x)}
+                      >
+                        <img variant="top" src={x} alt="product" className='img-thumbnail' />
+                      </Button>
+                    </Card>
+                  </Col>
+                ))}
+              </Row> */}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong><em>Description:</em></strong>
                   <p>{animal.description}</p>
-                </li>
-              </ul>
-            </div>
-            <div className="col-1">
-              <div className="card card-body">
-                <ul>
-                <li>
-                    Seller{' '}
-                    <h2>
-                      <Link to={`/seller/${animal.seller._id}`}>
-                        {/* {animal.seller.seller.name} */}
-                      </Link>
-                    </h2>
-                    <Rating
-                      rating={animal.seller.seller.rating}
-                      numReviews={animal.seller.seller.numReviews}
-                    ></Rating>
-                  </li>
-                  <li>
-                    <div className="row">
-                      <div>Price</div>
-                      <div className="price">${animal.price}</div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="row">
-                      <div>Status</div>
-                      <div>
-                        {animal.countInStock > 0 ? (
-                          <span className="success">Available</span>
-                        ) : (
-                          <span className="danger">Unavailable</span>
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+
+            <Col md={3}>
+              <Card>
+                <Card.Body>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <Row>
+                        Seller{' '}
+                        <h2>
+                          <Link to={`/seller/${animal.seller._id}`}>
+                            {/* {animal.seller.seller.name} */}
+                          </Link>
+                        </h2>
+                        <Rating
+                          rating={animal.seller.seller.rating}
+                          numReviews={animal.seller.seller.numReviews}
+                        ></Rating>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Price:</Col>
+                        <Col>${animal.price}</Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Status:</Col>
+                        <Col>
+                          {animal.countInStock > 0 ? (
+                            <Badge bg="success">Available</Badge>
+                          ) : (
+                            <Badge bg="danger">Unavailable</Badge>
+                          )}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+
+                    {animal.countInStock > 0 && (
+                      <ListGroup.Item>
+                        {/* <select
+                        value={qty}
+                        onChange={(e) => setQty(e.target.value)}
+                      >
+                        {[...Array(animal.countInStock).keys()].map(
+                          (x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          )
                         )}
-                      </div>
-                    </div>
-                  </li>
-                  {animal.countInStock > 0 && (
-                    <>
-                      <li>
-                        <div className="row">
-                          <div>Qty</div>
-                          <div>
-                            <select
-                              value={qty}
-                              onChange={(e) => setQty(e.target.value)}
-                            >
-                              {[...Array(animal.countInStock).keys()].map(
-                                (x) => (
-                                  <option key={x + 1} value={x + 1}>
-                                    {x + 1}
-                                  </option>
-                                )
-                              )}
-                            </select>
-                          </div>
+                      </select> */}
+                        <div className="d-grid">
+                          <Button onClick={addToCartHandler} variant="primary">
+                            Add to List
+                          </Button>
                         </div>
-                      </li>
-                      <li>
-                        <button
-                          onClick={addToCartHandler}
-                          className="primary block"
-                        >
-                          Add to List
-                        </button>
-                      </li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            </div>
-          </div>
+                      </ListGroup.Item>
+                    )}
+                  </ListGroup>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+
+
           <div>
             <h2 id="reviews">Reviews</h2>
             {animal.reviews.length === 0 && (
@@ -171,14 +196,14 @@ export default function AnimalView(props) {
               ))}
               <li>
                 {userInfo ? (
-                  <form className="form" onSubmit={submitHandler}>
+                  <form className="formm" onSubmit={submitHandler}>
                     <div>
                       <h2>Write a customer review</h2>
                     </div>
-                    <div>
-                      <label htmlFor="rating">Rating</label>
-                      <select
-                        id="rating"
+                    <Form.Group className="mb-3" controlId="rating">
+                      <Form.Label>Rating</Form.Label>
+                      <Form.Select
+                        aria-label="Rating"
                         value={rating}
                         onChange={(e) => setRating(e.target.value)}
                       >
@@ -188,21 +213,25 @@ export default function AnimalView(props) {
                         <option value="3">3- Good</option>
                         <option value="4">4- Very good</option>
                         <option value="5">5- Excelent</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="comment">Comment</label>
-                      <textarea
-                        id="comment"
+                      </Form.Select>
+                    </Form.Group>
+                    <FloatingLabel
+                      controlId="floatingTextarea"
+                      label="Comments"
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        as="textarea"
+                        placeholder="Leave a comment here"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
-                      ></textarea>
-                    </div>
+                      />
+                    </FloatingLabel>
                     <div>
                       <label />
-                      <button className="primary" type="submit">
+                      <Button type="submit">
                         Submit
-                      </button>
+                      </Button>
                     </div>
                     <div>
                       {loadingReviewCreate && <LoadingBox></LoadingBox>}

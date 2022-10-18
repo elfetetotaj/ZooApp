@@ -4,6 +4,8 @@ import Chart from 'react-google-charts';
 import { summaryAdopt } from '../actions/adoptActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Row from 'react-bootstrap/Row';
+import Col from "react-bootstrap/Col";
 
 export default function DashboardView() {
   const adoptSummary = useSelector((state) => state.adoptSummary);
@@ -14,7 +16,7 @@ export default function DashboardView() {
   }, [dispatch]);
   return (
     <div>
-      <div className="row">
+      <div className="roww">
         <h1>Dashboard</h1>
       </div>
       {loading ? (
@@ -23,7 +25,7 @@ export default function DashboardView() {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <ul className="row summary">
+          <ul className="roww summary">
             <li>
               <div className="summary-title color1">
                 <span>
@@ -56,8 +58,8 @@ export default function DashboardView() {
               </div>
             </li>
           </ul>
-          <div>
-            <div>
+          <Row>
+            <Col md={7}>
               <h2>Sales</h2>
               {summary.dailydopts === 0 ? (
                 <MessageBox>No Sale</MessageBox>
@@ -73,25 +75,26 @@ export default function DashboardView() {
                   ]}
                 ></Chart>
               )}
-            </div>
-          </div>
-          <div>
-            <h2>Categories</h2>
-            {summary.animalCategories === 0 ? (
-              <MessageBox>No Category</MessageBox>
-            ) : (
-              <Chart
-                width="100%"
-                height="400px"
-                chartType="PieChart"
-                loader={<div>Loading Chart</div>}
-                data={[
-                  ['Category', 'Animals'],
-                  ...summary.animalCategories.map((x) => [x._id, x.count]),
-                ]}
-              />
-            )}
-          </div>
+            </Col>
+
+            <Col md={5}>
+              <h2>Categories</h2>
+              {summary.animalCategories === 0 ? (
+                <MessageBox>No Category</MessageBox>
+              ) : (
+                <Chart
+                  width="100%"
+                  height="400px"
+                  chartType="PieChart"
+                  loader={<div>Loading Chart</div>}
+                  data={[
+                    ['Category', 'Animals'],
+                    ...summary.animalCategories.map((x) => [x._id, x.count]),
+                  ]}
+                />
+              )}
+            </Col>
+          </Row>
         </>
       )}
     </div>

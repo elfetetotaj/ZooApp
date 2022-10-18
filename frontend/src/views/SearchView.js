@@ -7,8 +7,12 @@ import MessageBox from '../components/MessageBox';
 import Animal from '../components/Animal';
 import Rating from '../components/Rating';
 import { prices, ratings } from '../utils';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchView(props) {
+  const navigate = useNavigate();
   const {
     name = 'all',
     category = 'all',
@@ -16,10 +20,11 @@ export default function SearchView(props) {
     max = 0,
     rating = 0,
     adopt = 'newest',
+    pageNumber = 1,
   } = useParams();
   const dispatch = useDispatch();
   const animalList = useSelector((state) => state.animalList);
-  const { loading, error, animals } = animalList;
+  const { loading, error, animals, page, pages } = animalList;
   const animalCategoryList = useSelector((state) => state.animalCategoryList);
   const {
     loading: loadingCategories,
@@ -28,6 +33,7 @@ export default function SearchView(props) {
   } = animalCategoryList;
   useEffect(() => {
     dispatch(listAnimals({
+      pageNumber,
       name: name !== 'all' ? name : '',
       category: category !== 'all' ? category : '',
       min,
@@ -35,7 +41,7 @@ export default function SearchView(props) {
       rating,
       adopt,
     }));
-  }, [dispatch, name, category, max, min, adopt, rating]);
+  }, [dispatch, name, category, max, min, adopt, rating, pageNumber]);
   const getFilterUrl = (filter) => {
     const filterCategory = filter.category || category;
     const filterName = filter.name || name;
@@ -47,7 +53,8 @@ export default function SearchView(props) {
   };
   return (
     <div>
-      <div className="row">
+      <h2>Animals</h2>
+      <Row>
         {loading ? (
           <LoadingBox></LoadingBox>
         ) : error ? (
@@ -55,24 +62,8 @@ export default function SearchView(props) {
         ) : (
           <div>{animals.length} Results</div>
         )}
-        <div>
-          Sort by{' '}
-          <select
-            value={adopt}
-            onChange={(e) => {
-              props.history.push(getFilterUrl({ adopt: e.target.value }));
-            }}
-          >
-            <option value="newest">Newest Arrivals</option>
-            <option value="lowest">Price: Low to High</option>
-            <option value="highest">Price: High to Low</option>
-            <option value="toprated">Avg. Customer Reviews</option>
-          </select>
-        </div>
-      </div>
-      <div className="row top">
-        <div className="col-1">
-          <h3>Department</h3>
+        <Col md={3}>
+          <h4>Category</h4>
           <div>
             {loadingCategories ? (
               <LoadingBox></LoadingBox>
@@ -102,15 +93,13 @@ export default function SearchView(props) {
             )}
           </div>
           <div>
-            <h3>Price</h3>
+            <h4>Price</h4>
             <ul>
               {prices.map((p) => (
                 <li key={p.name}>
                   <Link
                     to={getFilterUrl({ min: p.min, max: p.max })}
-                    className={
-                      `${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''
-                    }
+                    className={`${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''}
                   >
                     {p.name}
                   </Link>
@@ -119,7 +108,7 @@ export default function SearchView(props) {
             </ul>
           </div>
           <div>
-            <h3>Avg. Customer Review</h3>
+            <h4>Avg. Customer Review</h4>
             <ul>
               {ratings.map((r) => (
                 <li key={r.name}>
@@ -133,29 +122,76 @@ export default function SearchView(props) {
               ))}
             </ul>
           </div>
-          <ul>
-            <li>Category 1</li>
-          </ul>
-        </div>
-        <div className="col-3">
+        </Col>
+        <Col md={9}>
           {loading ? (
             <LoadingBox></LoadingBox>
           ) : error ? (
             <MessageBox variant="danger">{error}</MessageBox>
           ) : (
             <>
+              <Row className="justify-content-between mb-3">
+                {/* <Col md={6}>
+                            <div>
+                                {countProducts === 0 ? 'No' : countProducts} Results
+                                {query !== 'all' && ' : ' + query}
+                                {category !== 'all' && ' : ' + category}
+                                {price !== 'all' && ' : Price ' + price}
+                                {rating !== 'all' && ' : Rating ' + rating + ' & up'}
+                                {query !== 'all' ||
+                                    category !== 'all' ||
+                                    rating !== 'all' ||
+                                    price !== 'all' ? (
+                                    <Button
+                                        variant="light"
+                                        onClick={() => navigate('/search')}
+                                    >
+                                        <i className="fas fa-times-circle"></i>
+                                    </Button>
+                                ) : null}
+                            </div>
+                        </Col> */}
+                <Col className="text-end">
+                  Sort by{' '}
+                  <select
+                    value={adopt}
+                    onChange={(e) => {
+                      navigate(getFilterUrl({ adopt: e.target.value }));
+                    }}
+                  >
+                    <option value="newest">Newest Arrivals</option>
+                    <option value="lowest">Price: Low to High</option>
+                    <option value="highest">Price: High to Low</option>
+                    <option value="toprated">Avg. Customer Reviews</option>
+                  </select>
+                </Col>
+              </Row>
               {animals.length === 0 && (
                 <MessageBox>No Animal Found</MessageBox>
               )}
-              <div className="row center">
+
+              <Row>
                 {animals.map((animal) => (
-                  <Animal key={animal._id} animal={animal}></Animal>
+                  <Col sm={6} lg={4} className="mb-3" key={animal._id}>
+                    <Animal key={animal._id} animal={animal}></Animal>
+                  </Col>
+                ))}
+              </Row>
+              <div className="pagination">
+                {[...Array(pages).keys()].map((x) => (
+                  <Link
+                    className={x + 1 === page ? 'active' : ''}
+                    key={x + 1}
+                    to={getFilterUrl({ page: x + 1 })}
+                  >
+                    {x + 1}
+                  </Link>
                 ))}
               </div>
             </>
           )}
-        </div>
-      </div>
+        </Col>
+      </Row>
     </div>
   );
 }

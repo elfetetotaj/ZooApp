@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { listAdoptMine } from '../actions/adoptActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Button from "react-bootstrap/esm/Button";
+import Table from "react-bootstrap/Table";
 
 export default function AdoptionHistoryView(props) {
   const navigate = useNavigate();
@@ -21,44 +23,47 @@ export default function AdoptionHistoryView(props) {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {adopts?.map((adopt) => (
-              <tr key={adopt._id}>
-                <td>{adopt._id}</td>
-                <td>{adopt.createdAt.substring(0, 10)}</td>
-                <td>{adopt.totalPrice.toFixed(2)}</td>
-                <td>{adopt.isPaid ? adopt.paidAt.substring(0, 10) : 'No'}</td>
-                <td>
-                  {adopt.isDelivered
-                    ? adopt.deliveredAt.substring(0, 10)
-                    : 'No'}
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    className="small"
-                    onClick={() => {
-                     navigate(`/adopt/${adopt._id}`);
-                    }}
-                  >
-                    Details
-                  </button>
-                </td>
+        <>
+          <Table className="table" striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th>ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {adopts?.map((adopt) => (
+                <tr key={adopt._id}>
+                  <td>{adopt._id}</td>
+                  <td>{adopt.createdAt.substring(0, 10)}</td>
+                  <td>{adopt.totalPrice.toFixed(2)}</td>
+                  <td>{adopt.isPaid ? adopt.paidAt.substring(0, 10) : 'No'}</td>
+                  <td>
+                    {adopt.isDelivered
+                      ? adopt.deliveredAt.substring(0, 10)
+                      : 'No'}
+                  </td>
+                  <td>
+                    <Button
+                      type="button"
+                      variant="info"
+                      className="small"
+                      onClick={() => {
+                        navigate(`/adopt/${adopt._id}`);
+                      }}
+                    >
+                      Details
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </>
       )}
     </div>
   );

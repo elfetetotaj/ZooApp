@@ -5,6 +5,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { ADOPT_DELETE_RESET } from '../constants/adoptConstants';
 import { useNavigate,useLocation } from 'react-router-dom';
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 
 export default function AdoptListView(props) {
   const { pathname } = useLocation();
@@ -45,7 +47,7 @@ export default function AdoptListView(props) {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <Table striped bordered hover className="table">
           <thead>
             <tr>
               <th>ID</th>
@@ -71,27 +73,30 @@ export default function AdoptListView(props) {
                     : 'No'}
                 </td>
                 <td>
-                  <button
+                  <Button
                     type="button"
+                    variant="info"
                     className="small"
                     onClick={() => {
                       navigate(`/adopt/${adopt._id}`);
                     }}
                   >
                     Details
-                  </button>
-                  <button
+                  </Button>
+                  &nbsp;
+                  <Button
                     type="button"
+                    variant="danger"
                     className="small"
                     onClick={() => deleteHandler(adopt)}
                   >
                     Delete
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       )}
     </div>
   );
