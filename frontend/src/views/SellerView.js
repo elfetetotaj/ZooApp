@@ -7,6 +7,8 @@ import MessageBox from '../components/MessageBox';
 import Animal from '../components/Animal';
 import Rating from '../components/Rating';
 import { useParams } from 'react-router-dom';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function SellerView(props) {
     const params = useParams();
@@ -27,8 +29,8 @@ export default function SellerView(props) {
         dispatch(listAnimals({ seller: sellerId }));
     }, [dispatch, sellerId]);
     return (
-        <div className="roww top">
-            <div className="col-1">
+        <Row>
+            <Col md={3}>
                 {loading ? (
                     <LoadingBox></LoadingBox>
                 ) : error ? (
@@ -55,29 +57,27 @@ export default function SellerView(props) {
                                 numReviews={user.seller.numReviews}
                             ></Rating>
                         </li>
-                        <li>
-                            <a href={`mailto:${user.email}`}>Contact Seller</a>
-                        </li>
                         <li>{user.seller.description}</li>
                     </ul>
                 )}
-            </div>
-            <div className="col-3">
+            </Col>
+            <Col md={9} >
                 {loadingAnimals ? (
                     <LoadingBox></LoadingBox>
                 ) : errorAnimals ? (
                     <MessageBox variant="danger">{errorAnimals}</MessageBox>
                 ) : (
                     <>
-                        {animals.length === 0 && <MessageBox>No Animal Found</MessageBox>}
-                        <div className="roww center">
+                        <Row>
                             {animals.map((animal) => (
-                                <Animal key={animal._id} animal={animal}></Animal>
+                                <Col sm={6} lg={4} className="mb-3" key={animal._id}>
+                                    <Animal key={animal._id} animal={animal}></Animal>
+                                </Col>
                             ))}
-                        </div>
+                        </Row>
                     </>
                 )}
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 }

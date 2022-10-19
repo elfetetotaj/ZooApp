@@ -124,7 +124,7 @@ export default function AnimalView(props) {
                         Seller{' '}
                         <h2>
                           <Link to={`/seller/${animal.seller._id}`}>
-                            {/* {animal.seller.seller.name} */}
+                            {animal.seller.seller.name}
                           </Link>
                         </h2>
                         <Rating

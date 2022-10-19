@@ -69,7 +69,7 @@ export default function Animal(props) {
             Out of stock
           </Button>
         ) : (
-          <Button onClick={() => addToCartHandler(animal)}>Add to cart</Button>
+          <Button onClick={() => addToCartHandler(animal)}>Add to list</Button>
         )}
       </Card.Body>
     </Card>
